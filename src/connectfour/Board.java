@@ -42,15 +42,15 @@ public class Board {
 	}
 	
 	public Pair<Coordinate,Coordinate> getWinner() {
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 4; col++) {
-				if (Math.abs(board[row][col]+board[row+1][col]+board[row+2][col]+board[row+3][col])==4) {
+		for (int row = 0; row < 6; row++) {
+			for (int col = 0; col < 7; col++) {
+				if (row+3 < 6 && Math.abs(board[row][col]+board[row+1][col]+board[row+2][col]+board[row+3][col])==4) {
 					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row+3,col));
 				}
-				if (Math.abs(board[row][col]+board[row][col+1]+board[row][col+2]+board[row][col+3])==4) {
+				if (col+3 < 7 && Math.abs(board[row][col]+board[row][col+1]+board[row][col+2]+board[row][col+3])==4) {
 					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row,col+3));
 				}
-				if (Math.abs(board[row][col]+board[row+1][col+1]+board[row+2][col+2]+board[row+3][col+3])==4) {
+				if (row+3 < 6 && col+3 < 7 && Math.abs(board[row][col]+board[row+1][col+1]+board[row+2][col+2]+board[row+3][col+3])==4) {
 					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row+3,col+3));
 				}
 			}
