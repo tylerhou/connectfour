@@ -22,7 +22,7 @@ public class Board {
 	
 	public void move(int place) {
 		if (top[place] < 6) {
-			board[top[place]++][place] = color;
+			board[++top[place]][place] = color;
 			color = -color;
 		}
 	}
