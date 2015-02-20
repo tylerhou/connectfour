@@ -8,10 +8,12 @@ public class GUI {
 
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
+		int c;
 		while (b.getWinner() == null) {
 			System.out.println("  0   1   2   3   4   5   6");
 			System.out.println(b);
-			b.move(cin.nextInt());
+			if ((c=cin.nextInt()) <= 6 && c >= 0)
+				b.move(c);
 		}
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
