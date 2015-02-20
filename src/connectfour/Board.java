@@ -7,22 +7,37 @@ public class Board {
 	int[][] board;
 	int[] top;
 	int color;
+	int[] history;
+	int move;
 	
 	Board() {
-		board = new int[6][7];
-		top = new int[7];
+		this.board = new int[6][7];
+		this.top = new int[7];
 		for (int row = 0; row < 6; row++) {
 			for (int col = 0; col < 7; col++) {
 				board[row][col] = 0;
 			}
 			top[row] = 0;
 		}
-		color = 1;
+		this.color = 1;
+		this.move = 0;
+		this.history = new int[42];
 	}
 	
 	public void move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
+			color = -color;
+			history[move] = place;
+			++move;
+		}
+	}
+	
+	public void undo() {
+		if (move > 0) {
+			board[top[history[move-1]]-1][history[move-1]] = 0;
+			--top[history[move-1]];
+			--move;
 			color = -color;
 		}
 	}
@@ -64,6 +79,14 @@ public class Board {
 			return 0;
 		else return get(w.first.first, w.first.second);
 		
+	}
+	
+	public boolean isDraw() {
+		int total = 0;
+		for (int col = 0; col < 7; col++) {
+			total += top[col];
+		}
+		return total == 42;
 	}
 	
 	@Override
