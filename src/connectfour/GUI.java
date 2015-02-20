@@ -10,7 +10,7 @@ public class GUI {
 		Board b = new Board();
 		int c;
 		while (b.getWinner() == null) {
-			System.out.println("  0   1   2   3   4   5   6");
+			System.out.println("  0   1   2   3   4   5   6"); // type in
 			System.out.println(b);
 			if ((c=cin.nextInt()) <= 6 && c >= 0)
 				b.move(c);
