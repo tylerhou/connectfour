@@ -1,12 +1,15 @@
 package connectfour;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class GUI {
 
 	public static void main(String[] args) {
 
-		Scanner cin = new Scanner(System.in);
+		TheRealGUI GUI=new TheRealGUI();
+		
+		
+		/*Scanner cin = new Scanner(System.in);
 		Board b = new Board();
 		while (b.getWinner() == null) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in
@@ -15,6 +18,13 @@ public class GUI {
 		}
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
+		*/
+		
+		
+		
+		
+		
+		
 	}
 
 }
