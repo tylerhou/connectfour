@@ -40,7 +40,7 @@ public class TheRealGUI extends JFrame implements ActionListener{
 	//label.setBounds(500,200,200,400);
 	//add(label);
 
-	for(int a=0;a<board.length;a++)
+	for(int a=1;a<board.length;a++)
 	{
 			board[a]= new JButton (" ");
 			add(board[a]);
@@ -69,7 +69,8 @@ public class TheRealGUI extends JFrame implements ActionListener{
 		if(e.getActionCommand().equals(""+a+""))
 		{
 			board[a].setText("OK");
-			b.move(a);
+			labels[a][b.move(a)].setText("test");
+			
 		}
 }
 }

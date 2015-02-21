@@ -24,13 +24,14 @@ public class Board {
 		this.history = new int[42];
 	}
 	
-	public void move(int place) {
+	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
 			history[move] = place;
 			++move;
 		}
+		return top[place];
 	}
 	
 	public void undo() {
