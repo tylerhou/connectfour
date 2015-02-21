@@ -19,6 +19,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	public TheRealGUI() {
 
 		setLayout(null);
+		
 		for (int a = 0; a < 7; a++) {
 			for (int b = 0; b < 6; b++) {
 				labels[a][b] = new JLabel("l");
@@ -57,24 +58,24 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			if (e.getActionCommand().equals("" + a + "")) {
 				board[a].setText("OK");
 				turns++;
-				if(turns % 2 ==0 )
-				labels[a][b.move(a)].setForeground(Color.red);
-				if(turns % 2 ==1)
-				labels[a][b.move(a)].setForeground(Color.blue);
+					if(turns % 2 == 0)
+						labels[a][b.move(a)].setForeground(Color.red);
+					if(turns % 2 == 1)
+						labels[a][b.move(a)].setForeground(Color.blue);
 			}
 		}
 		for(int c=0; c < board.length; c++)
 		{
 		if(b.isDraw())
-		{
+			{
 			colorOfWinner.setText("draw");
-		}	
-		if(b.getWinnerColor()==-1){
+			}	
+		if(b.getWinnerColor() == -1){
 			board[c].setEnabled(false);
 			colorOfWinner.setText("l");
 			colorOfWinner.setForeground(Color.red);
 			}
-		if(b.getWinnerColor()==1) {
+		if(b.getWinnerColor() == 1) {
 			board[c].setEnabled(false);
 			colorOfWinner.setText("l");
 			colorOfWinner.setForeground(Color.blue);
