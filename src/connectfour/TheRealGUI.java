@@ -12,22 +12,13 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	Board b = new Board();
 	private JButton[] board = new JButton[7];
 	private JLabel[][] labels = new JLabel[7][6];
-	private JLabel label;
+	private JLabel Winner;
+	private JLabel colorOfWinner;
 	int turns=0;
-
-	// private JFrame frame;
-	// private JTable table;
 
 	public TheRealGUI() {
 
 		setLayout(null);
-
-		/*
-		 * Object[][] data={{"1"},{"2"},{"3"}}; String[]
-		 * columnNames={"1","2","3"}; JTable table = new JTable(data,
-		 * columnNames); table.setBackground(Color.green); could've used JTable
-		 */
-
 		for (int a = 0; a < 7; a++) {
 			for (int b = 0; b < 6; b++) {
 				labels[a][b] = new JLabel("l");
@@ -45,9 +36,14 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			board[a].addActionListener(this);
 		}
 
-		label=new JLabel("Winner:"+b.getWinnerColor());
-		add(label);
-		label.setBounds(10,600,100,100);
+		Winner=new JLabel("Winner:");
+		add(Winner);
+		Winner.setBounds(10,600,60,100);
+		
+		colorOfWinner=new JLabel("");
+		add(colorOfWinner);
+		colorOfWinner.setBounds(70,600,100,100);
+		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
 		
 		setSize(1100, 700);
 		setVisible(true);
@@ -55,8 +51,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		for (int a = 0; a < 7; a++) {
@@ -69,16 +63,24 @@ public class TheRealGUI extends JFrame implements ActionListener {
 				labels[a][b.move(a)].setForeground(Color.blue);
 			}
 		}
+		for(int c=0; c < board.length; c++)
+		{
 		if(b.isDraw())
 		{
-			for(int c= 0;c<board.length;c++)
-			{
-					board[c].setEnabled(false);
-			}
+			colorOfWinner.setText("draw");
 		}	
-		
+		if(b.getWinnerColor()==-1){
+			board[c].setEnabled(false);
+			colorOfWinner.setText("l");
+			colorOfWinner.setForeground(Color.red);
+			}
+		if(b.getWinnerColor()==1) {
+			board[c].setEnabled(false);
+			colorOfWinner.setText("l");
+			colorOfWinner.setForeground(Color.blue);
+			}
+		}
 	}
-
 	public static void main(String[] args) {
 		TheRealGUI GUI = new TheRealGUI();
 	}
