@@ -28,7 +28,7 @@ public class Board {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
-			history[move] = place;
+			history[move] = place; // remembers the place moved
 			++move;
 		}
 		return top[place] - 1;
@@ -37,6 +37,7 @@ public class Board {
 	public void undo() {
 		if (move > 0) {
 			board[top[history[move-1]]-1][history[move-1]] = 0;
+			// uses history to remove the top of the last moved
 			--top[history[move-1]];
 			--move;
 			color = -color;
