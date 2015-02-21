@@ -26,7 +26,7 @@ public class Board {
 	
 	public int move(int place) {
 		if (top[place] < 6) {
-			board[top[place]++][place] = color;
+			board[++top[place]][place] = color;
 			color = -color;
 			history[move] = place; // remembers the place moved
 			++move;
