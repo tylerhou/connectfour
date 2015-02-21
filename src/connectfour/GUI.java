@@ -23,13 +23,7 @@ public class GUI {
 		}
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
-		*/
-		
-		
-		
-		
-		
-		
+		cin.close();*/
 	}
 
 }
