@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Board {
 	
-	int[][] board;
-	int[] top;
-	int color;
-	int[] history;
-	int move;
+	int[][] board; // stores the board state, 7 cols by 6 rows
+	int[] top; // for each column, points to the space where a new piece would drop to
+	int color; // stores whose move it is, 1 for +, -1 for -
+	int[] history; // stores the entire history of the game, based on which columns pieces were dropped into
+	int move; // stores which move it is, used to find the history.
 	
 	Board() {
 		this.board = new int[6][7];
 		this.top = new int[7];
-		for (int row = 0; row < 6; row++) {
+		for (int row = 0; row < 6; row++) { // initialize the board to 0
 			for (int col = 0; col < 7; col++) {
 				board[row][col] = 0;
 			}
@@ -21,16 +21,17 @@ public class Board {
 		}
 		this.color = 1;
 		this.move = 0;
-		this.history = new int[42];
+		this.history = new int[42]; // 42 = 6*7
 	}
 	
-	public void move(int place) {
+	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
 			history[move] = place;
 			++move;
 		}
+		return top[place] - 1;
 	}
 	
 	public void undo() {
@@ -67,6 +68,9 @@ public class Board {
 				}
 				if (row+3 < 6 && col+3 < 7 && Math.abs(board[row][col]+board[row+1][col+1]+board[row+2][col+2]+board[row+3][col+3])==4) {
 					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row+3,col+3));
+				}
+				if (row-3 >=0 && col+3 < 7 && Math.abs(board[row][col]+board[row-1][col+1]+board[row-2][col+2]+board[row-3][col+3])==4) {
+					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row-3,col+3));
 				}
 			}
 		}
