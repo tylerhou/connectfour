@@ -60,7 +60,7 @@ public class Board {
 	
 	public Coordinate getWinner() {
 		
-		Coordinate last = new Coordinate(top[history[move]], history[move]);
+		Coordinate last = new Coordinate(top[history[move-1]-1], history[move-1]);
 		
 		if ( checkDown(last) > 2 ||
 			(checkLeft(last) + checkRight(last)) > 2 ||
@@ -72,72 +72,59 @@ public class Board {
 	
 	private int checkDown(Coordinate last)
 	{
-		try {
-				if (board[last.first()-1][last.second()]==color) 
-					return checkDown(new Coordinate(last.first()-1, last.second())) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.second()==7) return 0;
+		if (board[last.first()-1][last.second()]==color) 
+			return checkDown(new Coordinate(last.first()-1, last.second())) + 1;
+		return 0;
 	}
 	
 	private int checkLeft(Coordinate last)
 	{
-		try {
-				if (board[last.first()][last.second()-1]==color) 
-					return checkDown(new Coordinate(last.first(), last.second()-1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.second()==0) return 0;
+		if (board[last.first()][last.second()-1]==color) 
+			return checkDown(new Coordinate(last.first(), last.second()-1)) + 1;
+		return 0;
 	}
 	
 	private int checkRight(Coordinate last)
 	{
-		try {
-				if (board[last.first()][last.second()+1]==color) 
-					return checkDown(new Coordinate(last.first(), last.second()+1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.second()==7) return 0;
+		if (board[last.first()][last.second()+1]==color) 
+			return checkDown(new Coordinate(last.first(), last.second()+1)) + 1;
+		return 0;
 	}
 	
 	private int checkRightDown(Coordinate last)
 	{
-		try {
-				if (board[last.first()-1][last.second()+1]==color) 
-					return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.first()==0 || last.second()==7) return 0;
+		if (board[last.first()-1][last.second()+1]==color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
+		return 0;
 	}
 	
 	private int checkLeftDown(Coordinate last)
 	{
-		try {
-				if (board[last.first()-1][last.second()-1]==color) 
-					return checkDown(new Coordinate(last.first()-1, last.second()-1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.first()==0 || last.second()==0) return 0;
+		if (board[last.first()-1][last.second()-1]==color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()-1)) + 1;
+		return 0;
 	}
 	
 	private int checkRightUp(Coordinate last)
 	{
-		try {
-				if (board[last.first()+1][last.second()+1]==color) 
-					return checkDown(new Coordinate(last.first()+1, last.second()+1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		if (last.first()==6 || last.second()==7) return 0;
+		if (board[last.first()+1][last.second()+1]==color) 
+			return checkDown(new Coordinate(last.first()+1, last.second()+1)) + 1;
+		return 0;
 	}
 	
 	private int checkLeftUp(Coordinate last)
 	{
-		try {
-				if (board[last.first()+1][last.second()-1]==color) 
-					return checkDown(new Coordinate(last.first()+1, last.second()-1)) + 1;
-				return 0;
-		}
-		catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		
+		if (last.first()==6 || last.second()==0) return 0;
+		if (board[last.first()+1][last.second()-1]==color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
+		return 0;
 	}
 	
 	
