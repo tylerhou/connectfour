@@ -24,6 +24,10 @@ public class Board {
 		this.history = new int[42]; // 42 = 6*7
 	}
 	
+	public int[][] getBoard() {
+		return this.board;
+	}
+	
 	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
@@ -60,14 +64,16 @@ public class Board {
 	
 	public Coordinate getWinner() {
 		
-		Coordinate last = new Coordinate(top[history[move-1]-1], history[move-1]);
+		if (move <= 0) return null;
+		Coordinate last = new Coordinate(top[history[move-1]]-1, history[move-1]);
 		
 		if  (checkDown(last) >= 3 ||
 			(checkLeft(last) + checkRight(last)) >= 3 ||
 			(checkLeftDown(last) + checkRightUp(last)) >= 3 ||
 			(checkRightDown(last) + checkLeftUp(last)) >= 3)
 			return last;
-		else return null;
+		else 
+			return null;
 	}
 	
 	private int checkDown(Coordinate last)
