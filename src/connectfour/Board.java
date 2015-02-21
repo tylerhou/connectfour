@@ -77,7 +77,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first()-1, last.second())) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkLeft(Coordinate last)
@@ -87,7 +87,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first(), last.second()-1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkRight(Coordinate last)
@@ -97,7 +97,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first(), last.second()+1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkRightDown(Coordinate last)
@@ -107,7 +107,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkLeftDown(Coordinate last)
@@ -117,7 +117,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first()-1, last.second()-1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkRightUp(Coordinate last)
@@ -127,7 +127,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first()+1, last.second()+1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	private int checkLeftUp(Coordinate last)
@@ -137,7 +137,7 @@ public class Board {
 					return checkDown(new Coordinate(last.first()+1, last.second()-1)) + 1;
 				return 0;
 		}
-		catch (NullPointerException e){ return 0;}
+		catch (ArrayIndexOutOfBoundsException e){ return 0;}
 	}
 	
 	
