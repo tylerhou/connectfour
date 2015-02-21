@@ -7,8 +7,6 @@ public class GUI {
 	public static void main(String[] args) {
 
 		TheRealGUI GUI=new TheRealGUI();
-		
-		
 		/*Scanner cin = new Scanner(System.in);
 		Board b = new Board();
 		int c;

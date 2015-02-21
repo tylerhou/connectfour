@@ -8,12 +8,11 @@ import javax.swing.*;
 
 public class TheRealGUI extends JFrame implements ActionListener{
 
-	GUI cow = new GUI();
+	Board b = new Board();
 	private JButton[] board=new JButton[7];
 	private JLabel[][] labels=new JLabel[7][6];
-	private JLabel label;
-	private JFrame frame;
-	private JTable table;
+	//private JFrame frame;
+	//private JTable table;
 	
 	public TheRealGUI(){
 	
@@ -65,13 +64,16 @@ public class TheRealGUI extends JFrame implements ActionListener{
 			{
 				board[1].setText("Color.green");
 			}
-	for(int a=0;a<board.length;a++)
+	for(int a=0;a<7;a++)
 	{
 		if(e.getActionCommand().equals(""+a+""))
 		{
 			board[a].setText("OK");
+			b.move(a);
 		}
-	}
-		
-	}
 }
+}
+}	
+	
+	
+
