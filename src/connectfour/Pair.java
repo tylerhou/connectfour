@@ -9,6 +9,10 @@ public class Pair<First, Second> {
 		this.first = first;
 		this.second = second;
 	}
+	
+	public First first(){ return first; }
+	
+	public Second second(){ return second; }
 
 	@Override
 	public String toString() {

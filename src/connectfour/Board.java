@@ -24,6 +24,10 @@ public class Board {
 		this.history = new int[42]; // 42 = 6*7
 	}
 	
+	public int[][] getBoard() {
+		return this.board;
+	}
+	
 	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
@@ -58,31 +62,76 @@ public class Board {
 		return board[row][col];
 	}
 	
-	public Pair<Coordinate,Coordinate> getWinner() {
-		for (int row = 0; row < 6; row++) {
-			for (int col = 0; col < 7; col++) {
-				if (row+3 < 6 && Math.abs(board[row][col]+board[row+1][col]+board[row+2][col]+board[row+3][col])==4) {
-					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row+3,col));
-				}
-				if (col+3 < 7 && Math.abs(board[row][col]+board[row][col+1]+board[row][col+2]+board[row][col+3])==4) {
-					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row,col+3));
-				}
-				if (row+3 < 6 && col+3 < 7 && Math.abs(board[row][col]+board[row+1][col+1]+board[row+2][col+2]+board[row+3][col+3])==4) {
-					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row+3,col+3));
-				}
-				if (row-3 >=0 && col+3 < 7 && Math.abs(board[row][col]+board[row-1][col+1]+board[row-2][col+2]+board[row-3][col+3])==4) {
-					return new Pair<Coordinate,Coordinate>(new Coordinate(row,col), new Coordinate(row-3,col+3));
-				}
-			}
-		}
-		return null;
+	public Coordinate getWinner() {
+		
+		if (move <= 0) return null;
+		Coordinate last = new Coordinate(top[history[move-1]]-1, history[move-1]);
+		
+		if  (checkDown(last) >= 3 ||
+			(checkLeft(last) + checkRight(last)) >= 3 ||
+			(checkLeftDown(last) + checkRightUp(last)) >= 3 ||
+			(checkRightDown(last) + checkLeftUp(last)) >= 3)
+			return last;
+		else 
+			return null;
 	}
 	
+	private int checkDown(Coordinate last)
+	{
+		if (last.first() < 0 && board[last.first()-1][last.second()]==-color) 
+			return checkDown(new Coordinate(last.first()-1, last.second())) + 1;
+		return 0;
+	}
+	
+	private int checkLeft(Coordinate last)
+	{
+		if (last.second() < 0 && board[last.first()][last.second()-1]==-color) 
+			return checkDown(new Coordinate(last.first(), last.second()-1)) + 1;
+		return 0;
+	}
+	
+	private int checkRight(Coordinate last)
+	{
+		if (last.second() < 6 && board[last.first()][last.second()+1]==-color) 
+			return checkDown(new Coordinate(last.first(), last.second()+1)) + 1;
+		return 0;
+	}
+	
+	private int checkRightDown(Coordinate last)
+	{
+		if (last.first() > 0 && last.second() < 6 && board[last.first()-1][last.second()+1]==-color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
+		return 0;
+	}
+	
+	private int checkLeftDown(Coordinate last)
+	{
+		if (last.first() > 0 && last.second() > 0 && board[last.first()-1][last.second()-1]==-color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()-1)) + 1;
+		return 0;
+	}
+	
+	private int checkRightUp(Coordinate last)
+	{
+		if (last.first() < 5 && last.second < 6 && board[last.first()+1][last.second()+1]==-color) 
+			return checkDown(new Coordinate(last.first()+1, last.second()+1)) + 1;
+		return 0;
+	}
+	
+	private int checkLeftUp(Coordinate last)
+	{
+		
+		if (last.first() < 5 && last.second() > 0 && board[last.first()+1][last.second()-1]==-color) 
+			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
+		return 0;
+	}
+	
+	
 	public int getWinnerColor() {
-		Pair<Coordinate,Coordinate> w = getWinner();
+		Coordinate w = getWinner();
 		if (w == null)
 			return 0;
-		else return get(w.first.first, w.first.second);
+		else return board[w.first()][w.second()];
 		
 	}
 	

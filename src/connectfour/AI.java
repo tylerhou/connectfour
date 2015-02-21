@@ -23,4 +23,12 @@ public class AI {
 	public void negamax() {
 		
 	}
+	
+	private int boardStrength() {
+		return 0;
+	}
+	
+	private int posStrength() {
+		return 0;
+	}
 }
