@@ -62,58 +62,52 @@ public class Board {
 		
 		Coordinate last = new Coordinate(top[history[move-1]-1], history[move-1]);
 		
-		if ( checkDown(last) > 2 ||
-			(checkLeft(last) + checkRight(last)) > 2 ||
-			(checkLeftDown(last) + checkRightUp(last)) > 2 ||
-			(checkRightDown(last) + checkLeftUp(last)) > 2)
+		if  (checkDown(last) >= 3 ||
+			(checkLeft(last) + checkRight(last)) >= 3 ||
+			(checkLeftDown(last) + checkRightUp(last)) >= 3 ||
+			(checkRightDown(last) + checkLeftUp(last)) >= 3)
 			return last;
 		else return null;
 	}
 	
 	private int checkDown(Coordinate last)
 	{
-		if (last.second()==7) return 0;
-		if (board[last.first()-1][last.second()]==color) 
+		if (last.first() < 0 && board[last.first()-1][last.second()]==-color) 
 			return checkDown(new Coordinate(last.first()-1, last.second())) + 1;
 		return 0;
 	}
 	
 	private int checkLeft(Coordinate last)
 	{
-		if (last.second()==0) return 0;
-		if (board[last.first()][last.second()-1]==color) 
+		if (last.second() < 0 && board[last.first()][last.second()-1]==-color) 
 			return checkDown(new Coordinate(last.first(), last.second()-1)) + 1;
 		return 0;
 	}
 	
 	private int checkRight(Coordinate last)
 	{
-		if (last.second()==7) return 0;
-		if (board[last.first()][last.second()+1]==color) 
+		if (last.second() < 6 && board[last.first()][last.second()+1]==-color) 
 			return checkDown(new Coordinate(last.first(), last.second()+1)) + 1;
 		return 0;
 	}
 	
 	private int checkRightDown(Coordinate last)
 	{
-		if (last.first()==0 || last.second()==7) return 0;
-		if (board[last.first()-1][last.second()+1]==color) 
+		if (last.first() > 0 && last.second() < 6 && board[last.first()-1][last.second()+1]==-color) 
 			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
 		return 0;
 	}
 	
 	private int checkLeftDown(Coordinate last)
 	{
-		if (last.first()==0 || last.second()==0) return 0;
-		if (board[last.first()-1][last.second()-1]==color) 
+		if (last.first() > 0 && last.second() > 0 && board[last.first()-1][last.second()-1]==-color) 
 			return checkDown(new Coordinate(last.first()-1, last.second()-1)) + 1;
 		return 0;
 	}
 	
 	private int checkRightUp(Coordinate last)
 	{
-		if (last.first()==6 || last.second()==7) return 0;
-		if (board[last.first()+1][last.second()+1]==color) 
+		if (last.first() < 5 && last.second < 6 && board[last.first()+1][last.second()+1]==-color) 
 			return checkDown(new Coordinate(last.first()+1, last.second()+1)) + 1;
 		return 0;
 	}
@@ -121,8 +115,7 @@ public class Board {
 	private int checkLeftUp(Coordinate last)
 	{
 		
-		if (last.first()==6 || last.second()==0) return 0;
-		if (board[last.first()+1][last.second()-1]==color) 
+		if (last.first() < 5 && last.second() > 0 && board[last.first()+1][last.second()-1]==-color) 
 			return checkDown(new Coordinate(last.first()-1, last.second()+1)) + 1;
 		return 0;
 	}
