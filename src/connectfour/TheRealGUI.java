@@ -33,19 +33,12 @@ public class TheRealGUI extends JFrame implements ActionListener {
 				labels[a][b].setForeground(Color.red);
 			}
 		}
-
-<<<<<<< HEAD
-	for(int a=1;a<board.length;a++)
-	{
-			board[a]= new JButton (" ");
-=======
 		// label=new JLabel("test");
 		// label.setBounds(500,200,200,400);
 		// add(label);
 
 		for (int a = 0; a < board.length; a++) {
 			board[a] = new JButton(" ");
->>>>>>> 612868451c5a412b7a23055f8b5a90248d13d381
 			add(board[a]);
 			board[a].setBounds(40 + a * 150, 575, 100, 40);
 			board[a].setActionCommand("" + a + "");
@@ -70,16 +63,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 				board[a].setText("OK");
 				b.move(a);
 			}
-<<<<<<< HEAD
-	for(int a=0;a<7;a++)
-	{
-		if(e.getActionCommand().equals(""+a+""))
-		{
-			board[a].setText("OK");
-			labels[a][b.move(a)].setText("test");
-			
-=======
->>>>>>> 612868451c5a412b7a23055f8b5a90248d13d381
 		}
 	}
 
