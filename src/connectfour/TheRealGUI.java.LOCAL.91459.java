@@ -44,7 +44,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		colorOfWinner=new JLabel("");
 		add(colorOfWinner);
 		colorOfWinner.setBounds(70,600,100,100);
-		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
 		
 		setSize(1100, 700);
 		setVisible(true);
@@ -60,29 +59,25 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			buttons[a].setText("OK");
 			}
 		}
-		//int[][] board = b.getBoard(); I think this is not needed...
+		int[][] board = b.getBoard();
 		for (int row = 0; row < 6; ++row) {
 			for (int col = 0; col < 7; ++col) {
-				if (b.board[row][col] == 0) {
+				if (board[row][col] == 0) {
 					labels[row][col].setForeground(Color.white);
 				}
-				else if (b.board[row][col] == 1) {
+				else if (board[row][col] == 1) {
 					labels[row][col].setForeground(Color.red);
 				}
-				else if (b.board[row][col] == -1) {
+				else if (board[row][col] == -1) {
 					labels[row][col].setForeground(Color.blue);
 				}
 			}
 		}
+		if(b.getWinnerColor() == 1)
+		colorOfWinner.setText("red");
+		if(b.getWinnerColor() == -1)
+		colorOfWinner.setText("blue");
 		
-		if (b.getWinner()!=null)
-		{
-			colorOfWinner.setText(Integer.toString(b.getWinnerColor()));
-			for (JButton jb : buttons)
-			jb.setVisible(false);
-		}
-		
-		if (b.isDraw()) colorOfWinner.setText("Draw");
 		
 		/*for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a + "")) {
