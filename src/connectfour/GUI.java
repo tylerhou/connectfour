@@ -16,10 +16,12 @@ public class GUI {
 				if (c == -1) {
 					b.undo();
 				}
-				else {
+			else {
 				b.move(c);
-				}
+			}
 		}
+		System.out.println("  0   1   2   3   4   5   6"); // type in
+		System.out.println(b);
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
 		cin.close();
