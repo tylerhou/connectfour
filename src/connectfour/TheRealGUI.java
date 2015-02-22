@@ -75,7 +75,13 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			}
 		}
 		
-		if (b.getWinner()!=null) colorOfWinner.setText(Integer.toString(b.getWinnerColor()));
+		if (b.getWinner()!=null)
+		{
+			colorOfWinner.setText(Integer.toString(b.getWinnerColor()));
+			for (JButton jb : buttons)
+			jb.setVisible(false);
+		}
+		
 		if (b.isDraw()) colorOfWinner.setText("Draw");
 		
 		/*for (int a = 0; a < 7; a++) {
