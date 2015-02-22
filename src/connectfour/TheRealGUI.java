@@ -14,6 +14,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel Winner;
 	private JLabel colorOfWinner;
+	private JButton Reset;
 	int turns=0;
 
 	public TheRealGUI() {
@@ -37,6 +38,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			buttons[a].addActionListener(this);
 		}
 
+		Reset=new JButton("Reset");
+		add(Reset);
+		Reset.setActionCommand("Reset");
+		Reset.addActionListener(this);
+		
 		Winner=new JLabel("Winner:");
 		add(Winner);
 		Winner.setBounds(10,600,60,100);
@@ -83,6 +89,16 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		}
 		
 		if (b.isDraw()) colorOfWinner.setText("Draw");
+		
+		if(e.getActionCommand().equals("Reset"))
+		{
+			for (int row = 0; row < 6; ++row) {
+				for (int col = 0; col < 7; ++col) {
+						labels[row][col].setForeground(Color.white);
+						colorOfWinner.setText("");
+					}
+			}	
+		}
 		
 		/*for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a + "")) {
