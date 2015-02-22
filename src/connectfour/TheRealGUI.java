@@ -44,7 +44,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		colorOfWinner=new JLabel("");
 		add(colorOfWinner);
 		colorOfWinner.setBounds(70,600,100,100);
-		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
 		
 		setSize(1100, 700);
 		setVisible(true);
@@ -74,7 +73,10 @@ public class TheRealGUI extends JFrame implements ActionListener {
 				}
 			}
 		}
-		
+		if(b.getWinnerColor() == 1)
+		colorOfWinner.setText("red");
+		if(b.getWinnerColor() == -1)
+		colorOfWinner.setText("blue");
 		
 		
 		/*for (int a = 0; a < 7; a++) {
