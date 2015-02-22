@@ -14,8 +14,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel Winner;
 	private JLabel colorOfWinner;
-	private JButton Reset;
-	private String c;
 	int turns=0;
 
 	public TheRealGUI() {
@@ -39,18 +37,13 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			buttons[a].addActionListener(this);
 		}
 
-		Reset=new JButton("Reset");
-		add(Reset);
-		Reset.setActionCommand("Reset");
-		Reset.addActionListener(this);
-		
 		Winner=new JLabel("Winner:");
 		add(Winner);
 		Winner.setBounds(10,600,60,100);
 		
 		colorOfWinner=new JLabel("");
 		add(colorOfWinner);
-		colorOfWinner.setBounds(70,600,150,100);
+		colorOfWinner.setBounds(70,600,100,100);
 		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
 		
 		setSize(1100, 700);
@@ -84,24 +77,12 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		if (b.getWinner()!=null)
 		{
-			if (b.getWinnerColor()==-1) c = "Blue wins!";
-			else c = "Red wins!";
-			colorOfWinner.setText(c);
+			colorOfWinner.setText(Integer.toString(b.getWinnerColor()));
 			for (JButton jb : buttons)
 			jb.setVisible(false);
 		}
 		
 		if (b.isDraw()) colorOfWinner.setText("Draw");
-		
-		if(e.getActionCommand().equals("Reset"))
-		{
-			for (int row = 0; row < 6; ++row) {
-				for (int col = 0; col < 7; ++col) {
-						labels[row][col].setForeground(Color.white);
-						colorOfWinner.setText("");
-					}
-			}	
-		}
 		
 		/*for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a + "")) {

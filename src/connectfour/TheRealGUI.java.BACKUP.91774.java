@@ -14,8 +14,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel Winner;
 	private JLabel colorOfWinner;
+<<<<<<< HEAD
 	private JButton Reset;
+=======
 	private String c;
+>>>>>>> 9486f7d506b6bd98f1099352038dcdb8ddac35e6
 	int turns=0;
 
 	public TheRealGUI() {
