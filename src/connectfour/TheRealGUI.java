@@ -14,6 +14,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel Winner;
 	private JLabel colorOfWinner;
+	private String c;
 	int turns=0;
 
 	public TheRealGUI() {
@@ -43,7 +44,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		colorOfWinner=new JLabel("");
 		add(colorOfWinner);
-		colorOfWinner.setBounds(70,600,100,100);
+		colorOfWinner.setBounds(70,600,150,100);
 		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
 		
 		setSize(1100, 700);
@@ -77,7 +78,9 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		if (b.getWinner()!=null)
 		{
-			colorOfWinner.setText(Integer.toString(b.getWinnerColor()));
+			if (b.getWinnerColor()==-1) c = "Blue wins!";
+			else c = "Red wins!";
+			colorOfWinner.setText(c);
 			for (JButton jb : buttons)
 			jb.setVisible(false);
 		}
