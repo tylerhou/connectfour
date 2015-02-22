@@ -10,8 +10,8 @@ import javax.swing.*;
 public class TheRealGUI extends JFrame implements ActionListener {
 
 	Board b = new Board();
-	private JButton[] board = new JButton[7];
-	private JLabel[][] labels = new JLabel[7][6];
+	private JButton[] buttons = new JButton[7];
+	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel Winner;
 	private JLabel colorOfWinner;
 	int turns=0;
@@ -19,21 +19,22 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	public TheRealGUI() {
 
 		setLayout(null);
-		for (int a = 0; a < 7; a++) {
-			for (int b = 0; b < 6; b++) {
-				labels[a][b] = new JLabel("l");
-				add(labels[a][b]);
-				labels[a][b].setBounds(83 + a * 150, 20 + (-b+5) * 100, 100, 40);
-				labels[a][b].setForeground(Color.white);
-				labels[a][b].setFont(new Font("Wingdings", Font.BOLD, 24));
+		
+		for (int row = 0; row < 6; row++) {
+			for (int col = 0; col < 7; col++) {
+				labels[row][col] = new JLabel("l");
+				add(labels[row][col]);
+				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
+				labels[row][col].setForeground(Color.white);
+				labels[row][col].setFont(new Font("Wingdings", Font.BOLD, 24));
 			}
 		}
-		for (int a = 0; a < board.length; a++) {
-			board[a] = new JButton(" ");
-			add(board[a]);
-			board[a].setBounds(40 + a * 150, 580, 100, 40);
-			board[a].setActionCommand("" + a + "");
-			board[a].addActionListener(this);
+		for (int a = 0; a < buttons.length; a++) {
+			buttons[a] = new JButton(" ");
+			add(buttons[a]);
+			buttons[a].setBounds(40 + a * 150, 580, 100, 40);
+			buttons[a].setActionCommand("" + a + "");
+			buttons[a].addActionListener(this);
 		}
 
 		Winner=new JLabel("Winner:");
@@ -55,31 +56,56 @@ public class TheRealGUI extends JFrame implements ActionListener {
 
 		for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a + "")) {
+			b.move(a);
+			buttons[a].setText("OK");
+			}
+		}
+		int[][] board = b.getBoard();
+		for (int row = 0; row < 6; ++row) {
+			for (int col = 0; col < 7; ++col) {
+				if (board[row][col] == 0) {
+					labels[row][col].setForeground(Color.white);
+				}
+				else if (board[row][col] == 1) {
+					labels[row][col].setForeground(Color.red);
+				}
+				else if (board[row][col] == -1) {
+					labels[row][col].setForeground(Color.blue);
+				}
+			}
+		}
+		
+		
+		
+		/*for (int a = 0; a < 7; a++) {
+			if (e.getActionCommand().equals("" + a + "")) {
 				board[a].setText("OK");
 				turns++;
-				if(turns % 2 ==0 )
-				labels[a][b.move(a)].setForeground(Color.red);
-				if(turns % 2 ==1)
-				labels[a][b.move(a)].setForeground(Color.blue);
+					if(turns % 2 == 0)
+						labels[a][b.move(a)].setForeground(Color.red);
+					if(turns % 2 == 1)
+						labels[a][b.move(a)].setForeground(Color.blue);
 			}
+			if(b.move(a) > 0)
+			board[a].setEnabled(false);
 		}
 		for(int c=0; c < board.length; c++)
 		{
 		if(b.isDraw())
-		{
+			{
 			colorOfWinner.setText("draw");
-		}	
-		if(b.getWinnerColor()==-1){
+			}	
+		if(b.getWinnerColor() == -1){
 			board[c].setEnabled(false);
 			colorOfWinner.setText("l");
 			colorOfWinner.setForeground(Color.red);
 			}
-		if(b.getWinnerColor()==1) {
+		if(b.getWinnerColor() == 1) {
 			board[c].setEnabled(false);
 			colorOfWinner.setText("l");
 			colorOfWinner.setForeground(Color.blue);
 			}
-		}
+		}*/
 	}
 	public static void main(String[] args) {
 		TheRealGUI GUI = new TheRealGUI();

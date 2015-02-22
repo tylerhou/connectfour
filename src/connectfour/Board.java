@@ -29,7 +29,11 @@ public class Board {
 	public int[][] getBoard() {
 		return this.board;
 	}
-
+	
+	public int getMove(){
+		return move;
+	}
+	
 	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
