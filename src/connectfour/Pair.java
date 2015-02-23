@@ -16,6 +16,6 @@ public class Pair<First, Second> {
 
 	@Override
 	public String toString() {
-		return "(" + first.toString() + ", " + second.toString() + ")";
+		return "(" + first + ", " + second + ")";
 	}
 }

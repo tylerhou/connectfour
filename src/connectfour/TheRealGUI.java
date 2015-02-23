@@ -9,6 +9,10 @@ import javax.swing.*;
 
 public class TheRealGUI extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7479647450255253743L;
 	Board b = new Board();
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels = new JLabel[6][7];
@@ -60,7 +64,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			buttons[a].setText("OK");
 			}
 		}
-		//int[][] board = b.getBoard(); I think this is not needed...
+		// int[][] board = b.getBoard(); I think this is not needed...
 		for (int row = 0; row < 6; ++row) {
 			for (int col = 0; col < 7; ++col) {
 				if (b.board[row][col] == 0) {
