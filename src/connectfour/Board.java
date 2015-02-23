@@ -39,14 +39,14 @@ public class Board {
 		return move;
 	}
 
-	public int move(int place) {
+	public IPair move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
 			history[move] = place; // remembers the place moved
 			++move;
 		}
-		return top[place] - 1;
+		return new IPair(top[place] - 1, place);
 	}
 
 	public void undo() {
