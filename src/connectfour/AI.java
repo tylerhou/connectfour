@@ -37,10 +37,10 @@ public class AI {
 	}
 	
 	public int getMove(int depth) {
-		return negamax(depth).second();
+		return negamax(depth, -Integer.MAX_VALUE, Integer.MAX_VALUE).second();
 	}
 	
-	public IPair negamax(int depth) {
+	public IPair negamax(int depth, int alpha, int beta) {
 		if (depth == 0 || state.isTerminal()) {
 			return new IPair(evaluate() * state.color, null);
 		}
@@ -48,12 +48,14 @@ public class AI {
 		for (int i = 0; i < 7; ++i) {
 			if (state.top[i] < 6) {
 				state.move(i);
-				value = new IPair(-negamax(depth-1).first, i);
+				value = new IPair(-negamax(depth-1, -beta, -alpha).first, i);
 				//System.out.println(new String(new char[depth-1]).replace("\0", "\t") + value + ":" + -state.color);
 				if (value.first > best.first) {
 					best = value;
 				}
+				alpha = Math.max(alpha, value.first);
 				state.undo();
+				if (alpha >= beta) break;
 			}
 		}
 		return best;

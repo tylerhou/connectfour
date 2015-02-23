@@ -8,7 +8,6 @@ public class GUI {
 
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
-		int c;
 		AI ai = new AI(1);
 		int player = 1;
 		while (b.getWinner() == null) {
@@ -42,5 +41,4 @@ public class GUI {
 		System.out.println(b.getWinner());
 		cin.close();
 	}
-
 }
