@@ -49,8 +49,6 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		Reset.setBounds(950,640,100,30);
 		Reset.setActionCommand("Reset");
 		Reset.addActionListener(new ActionListener() {
-
-	         @Override
 	         public void actionPerformed(ActionEvent f) {
 	        	 {
 	     			for (int col = 0; col < 7; ++col) {
