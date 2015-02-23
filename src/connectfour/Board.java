@@ -15,6 +15,12 @@ public class Board {
 	Board() {
 		this.board = new int[6][7];
 		this.top = new int[7];
+		this.history = new int[42]; // 42 = 6*7
+		init();
+	}
+	
+	public void init()
+	{
 		for (int row = 0; row < 6; row++) { // initialize the board to 0
 			for (int col = 0; col < 7; col++) {
 				board[row][col] = 0;
@@ -23,17 +29,16 @@ public class Board {
 		}
 		this.color = 1;
 		this.move = 0;
-		this.history = new int[42]; // 42 = 6*7
 	}
 
 	public int[][] getBoard() {
 		return this.board;
 	}
-	
-	public int getMove(){
+
+	public int getMove() {
 		return move;
 	}
-	
+
 	public int move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
@@ -68,43 +73,60 @@ public class Board {
 		return board[row][col];
 	}
 
-	public Pair<Coordinate, Coordinate> getWinner() {
+	public Pair<IPair, IPair> getWinner() {
 
 		if (move <= 0)
 			return null;
-		Coordinate last = new Coordinate(top[history[move - 1]] - 1, history[move - 1]);
+		IPair last = new IPair(top[history[move - 1]] - 1, history[move - 1]);
 		int a, b;
-		if ((a=check(last, -1, 0)) >= 3) { // check down
-			return new Pair<Coordinate,Coordinate>(last,
-												   new Coordinate(last.first()-a,last.second()));
+		if ((a = check(last, -1, 0)) >= 3) { // check down
+			return new Pair<IPair, IPair>(last, new IPair(last.first() - a,
+					last.second()));
 		}
-		if ((a=check(last, 0, -1))+(b=check(last, 0, 1)) >= 3) { // check left and right
-			return new Pair<Coordinate,Coordinate>(new Coordinate(last.first(), last.second()-a),
-												   new Coordinate(last.first(), last.second()+b));
+		if ((a = check(last, 0, -1)) + (b = check(last, 0, 1)) >= 3) { // check
+																		// left
+																		// and
+																		// right
+			return new Pair<IPair, IPair>(new IPair(last.first(), last.second()
+					- a), new IPair(last.first(), last.second() + b));
 		}
-		if ((a=check(last, -1, -1))+(b=check(last, 1, 1)) >= 3) { // check right up and left down
-			return new Pair<Coordinate,Coordinate>(new Coordinate(last.first()-a, last.second()-a),
-					   							   new Coordinate(last.first()+b, last.second()+b));
+		if ((a = check(last, -1, -1)) + (b = check(last, 1, 1)) >= 3) { // check
+																		// right
+																		// up
+																		// and
+																		// left
+																		// down
+			return new Pair<IPair, IPair>(new IPair(last.first() - a,
+					last.second() - a), new IPair(last.first() + b,
+					last.second() + b));
 		}
-		if ((a=check(last, 1, -1))+(b=check(last, -1, 1)) >= 3) { // check left up and right down
-			return new Pair<Coordinate,Coordinate>(new Coordinate(last.first()+a, last.second()-a),
-					   							   new Coordinate(last.first()-b, last.second()+b));
+		if ((a = check(last, 1, -1)) + (b = check(last, -1, 1)) >= 3) { // check
+																		// left
+																		// up
+																		// and
+																		// right
+																		// down
+			return new Pair<IPair, IPair>(new IPair(last.first() + a,
+					last.second() - a), new IPair(last.first() - b,
+					last.second() + b));
 		}
 		return null;
 	}
 
-	private int check(Coordinate last, int d1, int d2) {
+	public int check(IPair last, int d1, int d2) {
 		int len = 1;
-		while (last.first()+len*d1 >= 0 && last.second()+len*d2 >= 0 &&
-			   last.first()+len*d1 <= 5 && last.second()+len*d2 <= 6 &&
-			   board[last.first()+len*d1][last.second()+len*d2] == -color) {
+		while (last.first() + len * d1 >= 0
+				&& last.second() + len * d2 >= 0
+				&& last.first() + len * d1 <= 5
+				&& last.second() + len * d2 <= 6
+				&& board[last.first() + len * d1][last.second() + len * d2] == -color) {
 			len += 1;
 		}
-		return len-1;
+		return len - 1;
 	}
 
 	public int getWinnerColor() {
-		Pair<Coordinate,Coordinate> w = getWinner();
+		Pair<IPair, IPair> w = getWinner();
 		if (w == null)
 			return 0;
 		else
@@ -117,6 +139,10 @@ public class Board {
 			total += top[col];
 		}
 		return total == 42;
+	}
+
+	public boolean isTerminal() {
+		return isDraw() || getWinnerColor() != 0;
 	}
 
 	@Override
