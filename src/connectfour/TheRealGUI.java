@@ -15,8 +15,8 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel Winner;
 	private JLabel colorOfWinner;
 	private JButton Reset;
-	private String c;
-	int turns=0;
+	private String w;
+	int turns=0, r, c;
 
 	public TheRealGUI() {
 
@@ -41,6 +41,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 
 		Reset=new JButton("Reset");
 		add(Reset);
+		Reset.setBounds(950,640,100,30);
 		Reset.setActionCommand("Reset");
 		Reset.addActionListener(this);
 		
@@ -65,42 +66,47 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			if (e.getActionCommand().equals("" + a + "")) {
 			b.move(a);
 			buttons[a].setText("OK");
+				if (b.top[a]==6){
+					buttons[a].setText("Full");
+					buttons[a].setEnabled(false);
+				}
+			c=a;
 			}
 		}
-		//int[][] board = b.getBoard(); I think this is not needed...
-		for (int row = 0; row < 6; ++row) {
-			for (int col = 0; col < 7; ++col) {
-				if (b.board[row][col] == 0) {
-					labels[row][col].setForeground(Color.white);
-				}
-				else if (b.board[row][col] == 1) {
-					labels[row][col].setForeground(Color.red);
-				}
-				else if (b.board[row][col] == -1) {
-					labels[row][col].setForeground(Color.blue);
-				}
-			}
+		
+		r = b.top[c]-1;
+		if (b.board[r][c] == 0) {
+			labels[r][c].setForeground(Color.white);
+		}
+		else if (b.board[r][c] == 1) {
+			labels[r][c].setForeground(Color.red);
+		}
+		else if (b.board[r][c] == -1) {
+			labels[r][c].setForeground(Color.blue);
 		}
 		
 		if (b.getWinner()!=null)
 		{
-			if (b.getWinnerColor()==-1) c = "Blue wins!";
-			else c = "Red wins!";
-			colorOfWinner.setText(c);
+			if (b.getWinnerColor()==-1) w = "Blue wins!";
+			else w = "Red wins!";
+			colorOfWinner.setText(w);
 			for (JButton jb : buttons)
-			jb.setVisible(false);
+			jb.setEnabled(false);
 		}
 		
 		if (b.isDraw()) colorOfWinner.setText("Draw");
 		
 		if(e.getActionCommand().equals("Reset"))
 		{
-			for (int row = 0; row < 6; ++row) {
-				for (int col = 0; col < 7; ++col) {
+			for (int col = 0; col < 7; ++col) {
+				for (int row = 0; row < 6; ++row) {
 						labels[row][col].setForeground(Color.white);
-						colorOfWinner.setText("");
 					}
-			}	
+				buttons[col].setEnabled(true);
+				buttons[col].setText("");
+			}
+			colorOfWinner.setText("");
+			b.init();
 		}
 		
 		/*for (int a = 0; a < 7; a++) {

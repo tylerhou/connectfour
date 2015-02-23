@@ -15,6 +15,12 @@ public class Board {
 	Board() {
 		this.board = new int[6][7];
 		this.top = new int[7];
+		this.history = new int[42]; // 42 = 6*7
+		init();
+	}
+	
+	public void init()
+	{
 		for (int row = 0; row < 6; row++) { // initialize the board to 0
 			for (int col = 0; col < 7; col++) {
 				board[row][col] = 0;
@@ -23,7 +29,6 @@ public class Board {
 		}
 		this.color = 1;
 		this.move = 0;
-		this.history = new int[42]; // 42 = 6*7
 	}
 
 	public int[][] getBoard() {
