@@ -70,9 +70,25 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			if (e.getActionCommand().equals("" + a + "")) {
 			b.move(a);
 			buttons[a].setText("OK");
+<<<<<<< HEAD
+			}
+		}
+		// int[][] board = b.getBoard(); I think this is not needed...
+		for (int row = 0; row < 6; ++row) {
+			for (int col = 0; col < 7; ++col) {
+				if (b.board[row][col] == 0) {
+					labels[row][col].setForeground(Color.white);
+				}
+				else if (b.board[row][col] == 1) {
+					labels[row][col].setForeground(Color.red);
+				}
+				else if (b.board[row][col] == -1) {
+					labels[row][col].setForeground(Color.blue);
+=======
 				if (b.top[a]==6){
 					buttons[a].setText("Full");
 					buttons[a].setEnabled(false);
+>>>>>>> 7f4e5782b051cb2b5b88de496abfb5510784718a
 				}
 			c=a;
 			}
