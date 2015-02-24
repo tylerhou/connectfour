@@ -7,3 +7,4 @@ public class IPair extends Pair<Integer,Integer>{
 	}
 	
 }
+
