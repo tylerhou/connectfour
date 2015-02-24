@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class GUI {
 
 	public static void main(String[] args) throws InterruptedException {
-
+		
+		
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
+		int c;
 		AI ai = new AI(1);
 		int player = 1, c = 0;
 		while (!b.isTerminal()) {
@@ -25,7 +27,11 @@ public class GUI {
 						b.move(c);						/************TEXT-BASED BOARD************/
 					}
 				}
+<<<<<<< HEAD
+				//b.move(ai.getMove(10));
+=======
 				//b.move(ai.getMove(5));
+>>>>>>> c2c2b8e3d74003cce78ae45120b5054cd98bb186
 			}
 			else {
 				b.move(ai.getMove(10));
