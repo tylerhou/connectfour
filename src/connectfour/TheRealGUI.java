@@ -28,7 +28,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 
 		setLayout(null);
 		
-		for (int row = 0; row < 6; row++) {
+		for (int row = 0; row < 6; row++) {    //creating the 7 column 6 row board
 			for (int col = 0; col < 7; col++) {
 			labels[row][col] = new JLabel("¥");
 				add(labels[row][col]);
@@ -37,7 +37,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 				labels[row][col].setFont(new Font("Times New Roman", Font.BOLD, 120));
 			}
 		}
-		for (int a = 0; a < buttons.length; a++) {
+		for (int a = 0; a < buttons.length; a++) {  //creating the 7 buttons at the bottom
 			buttons[a] = new JButton(" ");
 			add(buttons[a]);
 			buttons[a].setBounds(50 + a * 150, 580, 100, 40);
@@ -45,7 +45,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 			buttons[a].addActionListener(this);
 		}
 
-		Reset=new JButton("Reset");
+		Reset=new JButton("Reset");  //reset button
 		add(Reset);
 		Reset.setBounds(950,640,100,30);
 		Reset.setActionCommand("Reset");
@@ -66,11 +66,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	         }
 	      });
 		
-		difficulty= new JLabel("Difficulty:");
+		difficulty= new JLabel("Difficulty:");  //"Difficulty:"
 		add(difficulty);
 		difficulty.setBounds(450,640,100,30);
 		
-		difficult = new JComboBox();
+		difficult = new JComboBox();  //Dropdown list for difficulty options, 1-5
 		for(int i=1;i<6;i++)
 			difficult.addItem(i);
 		add(difficult);
@@ -78,17 +78,17 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		difficult.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent f) {
 	        	 {
-	     			diff = (difficult.getSelectedIndex()+3);
+	     			diff = (difficult.getSelectedIndex()*2+2);
 	        	 }
 	         }
 	      });
 		
-		colorOfWinner=new JLabel("");
+		colorOfWinner=new JLabel("");  //appears at bottom left of the window when win or lose
 		add(colorOfWinner);
 		colorOfWinner.setBounds(60,600,150,100);
 		colorOfWinner.setFont(new Font("Times New Roman",Font.BOLD,24));
 		
-		setSize(1100, 700);
+		setSize(1100, 700); //JFrame
 		setVisible(true);
 		setTitle("Connect Four");
 		setResizable(false);
@@ -97,10 +97,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		
-		for (int a = 0; a < 7; a++) {
+		//when button is pressed, move
+		for (int a = 0; a < 7; a++) {  
 			if (e.getActionCommand().equals("" + a + "")) {
 			last=b.move(a);
-			buttons[a].setText("OK");
+			//buttons[a].setText("OK");
 				if (b.top[a]==6){
 					buttons[a].setText("Full");
 					buttons[a].setEnabled(false);
