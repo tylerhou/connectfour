@@ -18,10 +18,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	IPair last;
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels = new JLabel[6][7];
-	private JLabel Winner, colorOfWinner;
+	private JLabel colorOfWinner, difficulty;
 	private JButton Reset;
 	private String w;
-	int turns=0, r, c;
+	private int turns=0, r, c, diff=3;
+	private JComboBox difficult;
 
 	public TheRealGUI() {
 
@@ -29,11 +30,11 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		for (int row = 0; row < 6; row++) {
 			for (int col = 0; col < 7; col++) {
-				labels[row][col] = new JLabel("¥");
+			labels[row][col] = new JLabel("¥");
 				add(labels[row][col]);
 				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
 				labels[row][col].setForeground(Color.white);
-				labels[row][col].setFont(new Font("Wingdings", Font.BOLD, 80));
+				labels[row][col].setFont(new Font("Times New Roman", Font.BOLD, 120));
 			}
 		}
 		for (int a = 0; a < buttons.length; a++) {
@@ -65,14 +66,27 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	         }
 	      });
 		
-		Winner=new JLabel("Winner:");
-		add(Winner);
-		Winner.setBounds(10,600,60,100);
+		difficulty= new JLabel("Difficulty:");
+		add(difficulty);
+		difficulty.setBounds(450,640,100,30);
+		
+		difficult = new JComboBox();
+		for(int i=1;i<6;i++)
+			difficult.addItem(i);
+		add(difficult);
+		difficult.setBounds(550,640,100,30);
+		difficult.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent f) {
+	        	 {
+	     			diff = (difficult.getSelectedIndex()+3);
+	        	 }
+	         }
+	      });
 		
 		colorOfWinner=new JLabel("");
 		add(colorOfWinner);
-		colorOfWinner.setBounds(70,600,150,100);
-		colorOfWinner.setFont(new Font("Wingdings",Font.BOLD,24));
+		colorOfWinner.setBounds(60,600,150,100);
+		colorOfWinner.setFont(new Font("Times New Roman",Font.BOLD,24));
 		
 		setSize(1100, 700);
 		setVisible(true);
@@ -82,7 +96,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-
+		
 		for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a + "")) {
 			last=b.move(a);
@@ -103,7 +117,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 	public void AImove() {
 		ai.setState(b);
-		last=b.move(ai.getMove(4));
+		last=b.move(ai.getMove(diff)); 
 		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 		labels[last.first][last.second].setForeground(Color.blue);
 		check();
