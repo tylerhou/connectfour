@@ -29,17 +29,17 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		for (int row = 0; row < 6; row++) {
 			for (int col = 0; col < 7; col++) {
-				labels[row][col] = new JLabel("l");
+				labels[row][col] = new JLabel("¥");
 				add(labels[row][col]);
 				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
 				labels[row][col].setForeground(Color.white);
-				labels[row][col].setFont(new Font("Wingdings", Font.BOLD, 24));
+				labels[row][col].setFont(new Font("Wingdings", Font.BOLD, 80));
 			}
 		}
 		for (int a = 0; a < buttons.length; a++) {
 			buttons[a] = new JButton(" ");
 			add(buttons[a]);
-			buttons[a].setBounds(40 + a * 150, 580, 100, 40);
+			buttons[a].setBounds(50 + a * 150, 580, 100, 40);
 			buttons[a].setActionCommand("" + a + "");
 			buttons[a].addActionListener(this);
 		}
@@ -103,7 +103,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 	public void AImove() {
 		ai.setState(b);
-		last=b.move(ai.getMove(5));
+		last=b.move(ai.getMove(3));
 		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 		labels[last.first][last.second].setForeground(Color.blue);
 		check();
