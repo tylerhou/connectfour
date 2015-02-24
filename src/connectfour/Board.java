@@ -21,11 +21,11 @@ public class Board {
 	
 	public void init()
 	{
-		for (int row = 0; row < 6; row++) { // initialize the board to 0
-			for (int col = 0; col < 7; col++) {
+		for (int col = 0; col < 7; ++col) { // initialize the board to 0
+			for (int row = 0; row < 6; ++row)  {
 				board[row][col] = 0;
 			}
-			top[row] = 0;
+			top[col] = 0;
 		}
 		this.color = 1;
 		this.move = 0;
@@ -39,14 +39,14 @@ public class Board {
 		return move;
 	}
 
-	public int move(int place) {
+	public IPair move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
 			history[move] = place; // remembers the place moved
 			++move;
 		}
-		return top[place] - 1;
+		return new IPair(top[place] - 1, place);
 	}
 
 	public void undo() {
