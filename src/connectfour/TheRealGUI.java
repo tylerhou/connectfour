@@ -103,7 +103,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 	public void AImove() {
 		ai.setState(b);
-		last=b.move(ai.getMove(3));
+		last=b.move(ai.getMove(4));
 		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 		labels[last.first][last.second].setForeground(Color.blue);
 		check();
