@@ -1,13 +1,13 @@
 package connectfour;
 
-//import java.util.Scanner;
+import java.util.Scanner;
 
 public class GUI {
 
 	public static void main(String[] args) throws InterruptedException {
 		
 		
-		/*Scanner cin = new Scanner(System.in);
+		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
 		int c;
 		AI ai = new AI(1);
@@ -24,7 +24,7 @@ public class GUI {
 						player = -player;
 					}
 					else {
-						b.move(c);						************TEXT-BASED BOARD************
+						b.move(c);						/************TEXT-BASED BOARD************/
 					}
 				}
 				//b.move(ai.getMove(5));
@@ -42,6 +42,5 @@ public class GUI {
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
 		cin.close();
-		*/
 	}
 }
