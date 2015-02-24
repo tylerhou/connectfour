@@ -49,7 +49,6 @@ public class AI {
 			if (state.top[i] < 6) {
 				state.move(i);
 				value = new IPair(-negamax(depth-1, -beta, -alpha).first, i);
-				//System.out.println(new String(new char[depth-1]).replace("\0", "\t") + value + ":" + -state.color);
 				if (value.first > best.first) {
 					best = value;
 				}
