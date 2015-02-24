@@ -21,6 +21,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	private JLabel Winner, colorOfWinner;
 	private JButton Reset;
 	private String w;
+	private JLabel difficulty;
 	int turns=0, r, c;
 
 	public TheRealGUI() {
@@ -46,11 +47,9 @@ public class TheRealGUI extends JFrame implements ActionListener {
 
 		Reset=new JButton("Reset");
 		add(Reset);
-<<<<<<< HEAD
+
 		Reset.setBounds(1050,640,60,30);
-=======
 		Reset.setBounds(950,640,100,30);
->>>>>>> b26d7509496a1f2b41bc17f557253992f47a6095
 		Reset.setActionCommand("Reset");
 		Reset.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent f) {
@@ -68,6 +67,16 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	     		}
 	         }
 	      });
+		
+		difficulty= new JLabel("Difficulty:");
+		add(difficulty);
+		difficulty.setBounds(450,640,100,30);
+		
+		JComboBox difficult = new JComboBox();
+		for(int i=1;i<10;i++)
+			difficult.addItem(i);
+		add(difficult);
+		difficult.setBounds(550,640,100,30);
 		
 		Winner=new JLabel("Winner:");
 		add(Winner);
@@ -107,7 +116,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 	public void AImove() {
 		ai.setState(b);
-		last=b.move(ai.getMove(3));
+		last=b.move(ai.getMove(3)); 
 		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 		labels[last.first][last.second].setForeground(Color.blue);
 		check();
