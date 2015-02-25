@@ -1,7 +1,5 @@
 package connectfour;
 
-import java.util.ArrayList;
-
 public class BoardLogic {
 
 	int[][] board; // stores the board state, 7 cols by 6 rows
@@ -13,9 +11,9 @@ public class BoardLogic {
 	int move; // stores which move it is, used to find the history.
 
 	BoardLogic() {
-		this.board = new int[6][7];
-		this.top = new int[7];
-		this.history = new int[42]; // 42 = 6*7
+		board = new int[6][7];
+		top = new int[7];
+		history = new int[42]; // 42 = 6*7
 		init();
 	}
 	
@@ -25,14 +23,14 @@ public class BoardLogic {
 			for (int row = 0; row < 6; ++row)  {
 				board[row][col] = 0;
 			}
-			top[col] = 0;
+			top[col] = 0; // and top to 0
 		}
-		this.color = 1;
-		this.move = 0;
+		color = 1; // 1 is the first player's move, -1 is the second
+		move = 0;
 	}
 
 	public int[][] getBoard() {
-		return this.board;
+		return board;
 	}
 
 	public int getMove() {
@@ -40,9 +38,9 @@ public class BoardLogic {
 	}
 
 	public IntegerPair move(int place) {
-		if (top[place] < 6) {
-			board[top[place]++][place] = color;
-			color = -color;
+		if (top[place] < 6) { // if the column is not full
+			board[top[place]++][place] = color; // drops the tile and increments the top of the column
+			color = -color; // switches player
 			history[move] = place; // remembers the place moved
 			++move;
 		}
@@ -51,69 +49,43 @@ public class BoardLogic {
 
 	public void undo() {
 		if (move > 0) {
-			board[top[history[move - 1]] - 1][history[move - 1]] = 0;
-			// uses history to remove the top of the last moved
-			--top[history[move - 1]];
+			board[top[history[move - 1]] - 1][history[move - 1]] = 0; // sets the last place moved to 0
+			--top[history[move - 1]]; // decrements the top row of the last column moved
 			--move;
-			color = -color;
+			color = -color; // switches player
 		}
-	}
-
-	public ArrayList<Integer> getMoves() {
-		ArrayList<Integer> m = new ArrayList<Integer>(7);
-		for (int col = 0; col < 7; col++) {
-			if (top[col] < 6) {
-				m.add(col);
-			}
-		}
-		return m;
 	}
 
 	public int get(int row, int col) {
-		return board[row][col];
+		return board[row][col]; // returns the value of the board at row and col
 	}
 
 	public Pair<IntegerPair, IntegerPair> getWinner() {
-
 		if (move <= 0)
 			return null;
-		IntegerPair last = new IntegerPair(top[history[move - 1]] - 1, history[move - 1]);
+		IntegerPair last = new IntegerPair(top[history[move - 1]] - 1, history[move - 1]); // gets the last move
 		int a, b;
 		if ((a = check(last, -1, 0)) >= 3) { // check down
-			return new Pair<IntegerPair, IntegerPair>(last, new IntegerPair(last.first() - a,
-					last.second()));
+			return new Pair<IntegerPair, IntegerPair>(last, 
+													  new IntegerPair(last.first() - a, last.second()));
 		}
-		if ((a = check(last, 0, -1)) + (b = check(last, 0, 1)) >= 3) { // check
-																		// left
-																		// and
-																		// right
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first(), last.second()
-					- a), new IntegerPair(last.first(), last.second() + b));
+		if ((a = check(last, 0, -1)) + (b = check(last, 0, 1)) >= 3) { // check left and right
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first(), last.second() - a),
+													  new IntegerPair(last.first(), last.second() + b));
 		}
-		if ((a = check(last, -1, -1)) + (b = check(last, 1, 1)) >= 3) { // check
-																		// right
-																		// up
-																		// and
-																		// left
-																		// down
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() - a,
-					last.second() - a), new IntegerPair(last.first() + b,
-					last.second() + b));
+		if ((a = check(last, -1, -1)) + (b = check(last, 1, 1)) >= 3) { // check right-up and left-down
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() - a, last.second() - a),
+													  new IntegerPair(last.first() + b, last.second() + b));
 		}
-		if ((a = check(last, 1, -1)) + (b = check(last, -1, 1)) >= 3) { // check
-																		// left
-																		// up
-																		// and
-																		// right
-																		// down
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() + a,
-					last.second() - a), new IntegerPair(last.first() - b,
-					last.second() + b));
+		if ((a = check(last, 1, -1)) + (b = check(last, -1, 1)) >= 3) { // check left-up and right-down
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() + a, last.second() - a), 
+													  new IntegerPair(last.first() - b, last.second() + b));
 		}
 		return null;
 	}
 
-	public int check(IntegerPair last, int d1, int d2) {
+	private int check(IntegerPair last, int d1, int d2) { // returns the # in a row in row 
+														  // direction d1 and col direction d2
 		int len = 1;
 		while (last.first() + len * d1 >= 0
 				&& last.second() + len * d2 >= 0
@@ -126,7 +98,8 @@ public class BoardLogic {
 	}
 
 	public int getWinnerColor() {
-		Pair<IntegerPair, IntegerPair> w = getWinner();
+		Pair<IntegerPair, IntegerPair> w = getWinner(); // gets the color of the first 
+														// coordinate of getWinnerColor()
 		if (w == null)
 			return 0;
 		else
@@ -134,15 +107,11 @@ public class BoardLogic {
 	}
 
 	public boolean isDraw() {
-		int total = 0;
-		for (int col = 0; col < 7; col++) {
-			total += top[col];
-		}
-		return total == 42;
+		return move == 42 && getWinnerColor() == 0;
 	}
 
 	public boolean isTerminal() {
-		return isDraw() || getWinnerColor() != 0;
+		return move == 42 || getWinnerColor() != 0;
 	}
 
 	@Override
@@ -151,9 +120,8 @@ public class BoardLogic {
 		for (int row = 0; row < 6; row++) {
 			s += "|";
 			for (int col = 0; col < 7; col++) {
-				s += " "
-						+ (board[5 - row][col] == 0 ? " "
-								: (board[5 - row][col] > 0 ? "+" : "-")) + " |";
+				// space if == 0, + if == 1 and - if == -1.
+				s += " " + (board[5 - row][col] == 0 ? " " : (board[5 - row][col] > 0 ? "+" : "-")) + " |";
 			}
 			s += "\n";
 		}
