@@ -92,12 +92,12 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		
+
 		//when button is pressed, move
-		for (int a = 0; a < 7; a++) {  
-			if (e.getActionCommand().equals("" + a + "")) {
-			last=b.move(a);
-			//buttons[a].setText("OK");
+		for (int a = 0; a < 7; a++) {
+			if (e.getActionCommand().equals("" + a)) {
+			last = b.move(a);
+			buttons[a].setText("OK");
 				if (b.top[a]==6){
 					buttons[a].setText("Full");
 					buttons[a].setEnabled(false);

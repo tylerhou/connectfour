@@ -5,14 +5,13 @@ import java.util.Scanner;
 public class GUI {
 
 	public static void main(String[] args) throws InterruptedException {
-		
-		
+
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
-		int c;
-		AI ai = new AI(10, 1);
-		int player = 1;
-		while (b.getWinner() == null) {
+		
+		AI ai = new AI(1);
+		int player = 1, c = 0;
+		while (!b.isTerminal()) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in
 			System.out.println(b);
 			ai.setState(b);
@@ -30,11 +29,10 @@ public class GUI {
 				//b.move(ai.getMove(5));
 			}
 			else {
-				//System.out.println(ai.negamax(3));
-				b.move(ai.getMove());
+				b.move(ai.getMove(10));
 			}
 			player = -player;
-			Thread.sleep(1000);
+			//Thread.sleep(250);
 		}
 		System.out.println("  0   1   2   3   4   5   6"); // type in
 		System.out.println(b);
