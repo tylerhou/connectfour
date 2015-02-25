@@ -30,7 +30,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		for (int row = 0; row < 6; row++) {    //creating the 7 column 6 row board
 			for (int col = 0; col < 7; col++) {
-			labels[row][col] = new JLabel("ï¿½");
+			labels[row][col] = new JLabel("¥");
 				add(labels[row][col]);
 				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
 				labels[row][col].setForeground(Color.white);
@@ -100,7 +100,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		//when button is pressed, move
 		for (int a = 0; a < 7; a++) {
 			if (e.getActionCommand().equals("" + a)) {
-			b.move(a);
+			last = b.move(a);
 			buttons[a].setText("OK");
 				if (b.top[a]==6){
 					buttons[a].setText("Full");
