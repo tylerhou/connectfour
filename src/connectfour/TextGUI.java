@@ -2,14 +2,14 @@ package connectfour;
 
 import java.util.Scanner;
 
-public class GUI {
+public class TextGUI {
 
 	public static void main(String[] args) throws InterruptedException {
 
 		Scanner cin = new Scanner(System.in);
-		Board b = new Board();
+		BoardLogic b = new BoardLogic();
 		
-		AI ai = new AI(10, 1);
+		AIPlayer ai = new AIPlayer(10, 1);
 		int player = 1, c = 0;
 		while (!b.isTerminal()) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in

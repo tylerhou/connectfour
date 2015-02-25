@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class BoardDisplay extends JPanel {
 	
-	Human human;
+	HumanPlayer human;
 	
 	public BoardDisplay() {
 		setLayout(new GridLayout(6, 7));
@@ -23,7 +23,7 @@ public class BoardDisplay extends JPanel {
 		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	         
 		 //Add content to the window.
-		 human = new Human();
+		 human = new HumanPlayer();
 		 frame.add(human);
 	         
 		 //Display the window.

@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-public class Human extends JPanel implements Player, ActionListener {
+public class HumanPlayer extends JPanel implements Player, ActionListener {
 
 	int move;
 	Button[] buttons;
 	
-	public Human() {
+	public HumanPlayer() {
 		setLayout(new GridLayout(1, 7));
 		buttons = new Button[7];
 		for (int a = 0; a < 7; a++) {

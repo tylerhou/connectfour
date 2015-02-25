@@ -1,9 +1,9 @@
 package connectfour;
 
-public class AI implements Player {
+public class AIPlayer implements Player {
 
 	int depth, bSc;
-	Board state;
+	BoardLogic state;
 	int[][] strength = {{3, 4, 5, 7, 5, 4, 3}, 
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {5, 8, 11, 13, 11, 8, 5}, 
@@ -11,13 +11,13 @@ public class AI implements Player {
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {3, 4, 5, 7, 5, 4, 3}};
 		
-	AI(int depth, int bSc) {
+	AIPlayer(int depth, int bSc) {
 		setState(state);
 		this.depth = depth;
 		this.bSc = bSc;
 	}
 	
-	public void setState(Board state) {
+	public void setState(BoardLogic state) {
 		this.state = state;
 	}
 	

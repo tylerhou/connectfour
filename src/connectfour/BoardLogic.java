@@ -2,7 +2,7 @@ package connectfour;
 
 import java.util.ArrayList;
 
-public class Board {
+public class BoardLogic {
 
 	int[][] board; // stores the board state, 7 cols by 6 rows
 	int[] top; // for each column, points to the space where a new piece would
@@ -12,7 +12,7 @@ public class Board {
 					// columns pieces were dropped into
 	int move; // stores which move it is, used to find the history.
 
-	Board() {
+	BoardLogic() {
 		this.board = new int[6][7];
 		this.top = new int[7];
 		this.history = new int[42]; // 42 = 6*7
