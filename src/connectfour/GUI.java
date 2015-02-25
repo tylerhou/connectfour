@@ -9,7 +9,7 @@ public class GUI {
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
 		
-		AI ai = new AI(1);
+		AI ai = new AI(10, 1);
 		int player = 1, c = 0;
 		while (!b.isTerminal()) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in
