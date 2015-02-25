@@ -1,8 +1,8 @@
 package connectfour;
 
-public class AI {
+public class AI implements Player {
 
-	int bSc;
+	int depth, bSc;
 	Board state;
 	int[][] strength = {{3, 4, 5, 7, 5, 4, 3}, 
             		    {4, 6, 8, 10, 8, 6, 4},
@@ -11,8 +11,9 @@ public class AI {
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {3, 4, 5, 7, 5, 4, 3}};
 		
-	AI(int bSc) {
+	AI(int depth, int bSc) {
 		setState(state);
+		this.depth = depth;
 		this.bSc = bSc;
 	}
 	
@@ -36,19 +37,23 @@ public class AI {
 		return total;
 	}
 	
+	public int getMove() {
+		return getMove(this.depth);
+	}
+	
 	public int getMove(int depth) {
 		return negamax(depth, -Integer.MAX_VALUE, Integer.MAX_VALUE).second();
 	}
 	
-	public IPair negamax(int depth, int alpha, int beta) {
+	public IntegerPair negamax(int depth, int alpha, int beta) {
 		if (depth == 0 || state.isTerminal()) {
-			return new IPair(evaluate() * state.color, null);
+			return new IntegerPair(evaluate() * state.color, null);
 		}
-		IPair best = new IPair(Integer.MIN_VALUE, null), value;
+		IntegerPair best = new IntegerPair(Integer.MIN_VALUE, null), value;
 		for (int i = 0; i < 7; ++i) {
 			if (state.top[i] < 6) {
 				state.move(i);
-				value = new IPair(-negamax(depth-1, -beta, -alpha).first, i);
+				value = new IntegerPair(-negamax(depth-1, -beta, -alpha).first, i);
 				//System.out.println(new String(new char[depth-1]).replace("\0", "\t") + value + ":" + -state.color);
 				if (value.first > best.first) {
 					best = value;

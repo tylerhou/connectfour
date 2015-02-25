@@ -9,13 +9,9 @@ import javax.swing.*;
 
 public class TheRealGUI extends JFrame implements ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7479647450255253743L;
 	Board b = new Board();
-	AI ai =  new AI(1);
-	IPair last;
+	AI ai =  new AI(10, 1);
+	IntegerPair last;
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel colorOfWinner, difficulty;
@@ -30,7 +26,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		for (int row = 0; row < 6; row++) {    //creating the 7 column 6 row board
 			for (int col = 0; col < 7; col++) {
-			labels[row][col] = new JLabel("¥");
+			labels[row][col] = new JLabel("â€¢");
 				add(labels[row][col]);
 				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
 				labels[row][col].setForeground(Color.white);

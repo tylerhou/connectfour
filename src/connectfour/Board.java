@@ -39,14 +39,14 @@ public class Board {
 		return move;
 	}
 
-	public IPair move(int place) {
+	public IntegerPair move(int place) {
 		if (top[place] < 6) {
 			board[top[place]++][place] = color;
 			color = -color;
 			history[move] = place; // remembers the place moved
 			++move;
 		}
-		return new IPair(top[place] - 1, place);
+		return new IntegerPair(top[place] - 1, place);
 	}
 
 	public void undo() {
@@ -73,22 +73,22 @@ public class Board {
 		return board[row][col];
 	}
 
-	public Pair<IPair, IPair> getWinner() {
+	public Pair<IntegerPair, IntegerPair> getWinner() {
 
 		if (move <= 0)
 			return null;
-		IPair last = new IPair(top[history[move - 1]] - 1, history[move - 1]);
+		IntegerPair last = new IntegerPair(top[history[move - 1]] - 1, history[move - 1]);
 		int a, b;
 		if ((a = check(last, -1, 0)) >= 3) { // check down
-			return new Pair<IPair, IPair>(last, new IPair(last.first() - a,
+			return new Pair<IntegerPair, IntegerPair>(last, new IntegerPair(last.first() - a,
 					last.second()));
 		}
 		if ((a = check(last, 0, -1)) + (b = check(last, 0, 1)) >= 3) { // check
 																		// left
 																		// and
 																		// right
-			return new Pair<IPair, IPair>(new IPair(last.first(), last.second()
-					- a), new IPair(last.first(), last.second() + b));
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first(), last.second()
+					- a), new IntegerPair(last.first(), last.second() + b));
 		}
 		if ((a = check(last, -1, -1)) + (b = check(last, 1, 1)) >= 3) { // check
 																		// right
@@ -96,8 +96,8 @@ public class Board {
 																		// and
 																		// left
 																		// down
-			return new Pair<IPair, IPair>(new IPair(last.first() - a,
-					last.second() - a), new IPair(last.first() + b,
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() - a,
+					last.second() - a), new IntegerPair(last.first() + b,
 					last.second() + b));
 		}
 		if ((a = check(last, 1, -1)) + (b = check(last, -1, 1)) >= 3) { // check
@@ -106,14 +106,14 @@ public class Board {
 																		// and
 																		// right
 																		// down
-			return new Pair<IPair, IPair>(new IPair(last.first() + a,
-					last.second() - a), new IPair(last.first() - b,
+			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() + a,
+					last.second() - a), new IntegerPair(last.first() - b,
 					last.second() + b));
 		}
 		return null;
 	}
 
-	public int check(IPair last, int d1, int d2) {
+	public int check(IntegerPair last, int d1, int d2) {
 		int len = 1;
 		while (last.first() + len * d1 >= 0
 				&& last.second() + len * d2 >= 0
@@ -126,7 +126,7 @@ public class Board {
 	}
 
 	public int getWinnerColor() {
-		Pair<IPair, IPair> w = getWinner();
+		Pair<IntegerPair, IntegerPair> w = getWinner();
 		if (w == null)
 			return 0;
 		else

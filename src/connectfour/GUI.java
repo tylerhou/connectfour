@@ -10,7 +10,7 @@ public class GUI {
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
 		int c;
-		AI ai = new AI(1);
+		AI ai = new AI(10, 1);
 		int player = 1;
 		while (b.getWinner() == null) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in
@@ -31,7 +31,7 @@ public class GUI {
 			}
 			else {
 				//System.out.println(ai.negamax(3));
-				b.move(ai.getMove(5));
+				b.move(ai.getMove());
 			}
 			player = -player;
 			Thread.sleep(1000);
