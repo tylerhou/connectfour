@@ -120,7 +120,6 @@ public class GUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == resetButton) {
 			game.remove(reset);
-			pane.repaint();
 			logic.init();
 			game.add(human, BorderLayout.SOUTH);
 			pane.repaint();
