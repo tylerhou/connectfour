@@ -79,7 +79,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		difficult.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent f) {
 	        	 {
-	     			diff = (difficult.getSelectedIndex()*2+2);
+	     			diff = (difficult.getSelectedIndex()+3);
 	        	 }
 	         }
 	      });
