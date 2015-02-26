@@ -66,4 +66,8 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 			notify();
 		}
 	}
+	
+	public void setState(BoardLogic board) {
+		
+	}
 }

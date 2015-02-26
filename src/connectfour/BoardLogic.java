@@ -2,13 +2,13 @@ package connectfour;
 
 public class BoardLogic {
 
-	int[][] board; // stores the board state, 7 cols by 6 rows
-	int[] top; // for each column, points to the space where a new piece would
+	private int[][] board; // stores the board state, 7 cols by 6 rows
+	private int[] top; // for each column, points to the space where a new piece would
 				// drop to
-	int color; // stores whose move it is, 1 for +, -1 for -
-	int[] history; // stores the entire history of the game, based on which
+	private int color; // stores whose move it is, 1 for +, -1 for -
+	private int[] history; // stores the entire history of the game, based on which
 					// columns pieces were dropped into
-	int move; // stores which move it is, used to find the history.
+	private int move; // stores which move it is, used to find the history.
 
 	public BoardLogic() {
 		board = new int[6][7];
@@ -16,9 +16,8 @@ public class BoardLogic {
 		history = new int[42]; // 42 = 6*7
 		init();
 	}
-	
-	public void init()
-	{
+		
+	public void init() {
 		for (int col = 0; col < 7; ++col) { // initialize the board to 0
 			for (int row = 0; row < 6; ++row)  {
 				board[row][col] = 0;
@@ -32,9 +31,22 @@ public class BoardLogic {
 	public int[][] getBoard() {
 		return board;
 	}
+	
+	public BoardLogic getState() {
+		return this;
+	}
+	
 
 	public int getMove() {
 		return move;
+	}
+	
+	public int[] getTop() {
+		return top;
+	}
+	
+	public int getPlayer() {
+		return color;
 	}
 
 	public IntegerPair move(int place) {
