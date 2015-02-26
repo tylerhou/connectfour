@@ -17,7 +17,7 @@ public class BoardDisplay extends JPanel {
 		setLayout(new GridLayout(6, 7));
 		for (int row = 0; row < 6; ++row) {
 			for (int col = 0; col < 7; ++col) {
-				tiles[row][col] = new Tile(transparent);
+				tiles[row][col] = new Tile(Color.red);
 				add(tiles[row][col]);
 			}
 		}
