@@ -30,24 +30,24 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		for (int row = 0; row < 6; row++) {    //creating the 7 column 6 row board
 			for (int col = 0; col < 7; col++) {
-			labels[row][col] = new JLabel("¥");
+			labels[row][col] = new JLabel("o");
 				add(labels[row][col]);
-				labels[row][col].setBounds(83 + col * 150, 20 + (-row+5) * 100, 100, 40);
+				labels[row][col].setBounds(50 + col * 150, 5 + (-row+5) * 100, 100, 60);
 				labels[row][col].setForeground(Color.white);
-				labels[row][col].setFont(new Font("Times New Roman", Font.BOLD, 120));
+				labels[row][col].setFont(new Font("Times New Roman", Font.BOLD, 80));
 			}
 		}
 		for (int a = 0; a < buttons.length; a++) {  //creating the 7 buttons at the bottom
 			buttons[a] = new JButton(" ");
 			add(buttons[a]);
-			buttons[a].setBounds(50 + a * 150, 580, 100, 40);
+			buttons[a].setBounds(20 + a * 150, 580, 100, 40);
 			buttons[a].setActionCommand("" + a + "");
 			buttons[a].addActionListener(this);
 		}
 
 		Reset=new JButton("Reset");  //reset button
 		add(Reset);
-		Reset.setBounds(950,640,100,30);
+		Reset.setBounds(920,640,100,30);
 		Reset.setActionCommand("Reset");
 		Reset.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent f) {
@@ -68,13 +68,13 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		difficulty= new JLabel("Difficulty:");  //"Difficulty:"
 		add(difficulty);
-		difficulty.setBounds(450,640,100,30);
+		difficulty.setBounds(417,640,100,30);
 		
 		difficult = new JComboBox();  //Dropdown list for difficulty options, 1-5
 		for(int i=1;i<6;i++)
 			difficult.addItem(i);
 		add(difficult);
-		difficult.setBounds(550,640,100,30);
+		difficult.setBounds(517,640,100,30);
 		difficult.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent f) {
 	        	 {
@@ -88,7 +88,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		colorOfWinner.setBounds(60,600,150,100);
 		colorOfWinner.setFont(new Font("Times New Roman",Font.BOLD,24));
 		
-		setSize(1100, 700); //JFrame
+		setSize(1050, 700); //JFrame
 		setVisible(true);
 		setTitle("Connect Four");
 		setResizable(false);
