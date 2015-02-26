@@ -46,6 +46,16 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 		}
 	}
 	
+	public void setLabels(String s) {
+		for (Button button: buttons) {
+			button.setLabel(s);
+		}
+	}
+	
+	public Button[] getButtons() {
+		return buttons;
+	}
+	
 	@Override
 	public int getMove() {
 		synchronized (this) {
