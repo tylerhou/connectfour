@@ -86,7 +86,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		
 		colorOfWinner=new JLabel("");  //appears at bottom left of the window when win or lose
 		add(colorOfWinner);
-		colorOfWinner.setBounds(60,600,150,100);
+		colorOfWinner.setBounds(22,600,150,100);
 		colorOfWinner.setFont(new Font("Times New Roman",Font.BOLD,24));
 		
 		setSize(1050, 700); //JFrame
