@@ -7,14 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 public class GUI implements ActionListener {
@@ -24,12 +21,9 @@ public class GUI implements ActionListener {
 	private BoardLogic logic;
 	private Player playerOne, playerTwo;
 	private JPanel reset, game, settings;
-	private JButton resetButton, save;
+	private JButton resetButton;
 	private JTabbedPane pane;
 	private JFrame frame;
-	private JTextField[] difficulties;
-	private ButtonGroup[] playerTypes;
-	private JRadioButton[][] playerRadios;
 	
 	public GUI() {
 		board = new BoardDisplay();
@@ -45,9 +39,6 @@ public class GUI implements ActionListener {
 		for (JButton button: human.getButtons()) {
 			button.addActionListener(this);
 		}
-		difficulties = new JTextField[2];
-		playerTypes = new ButtonGroup[2];
-		playerRadios = new JRadioButton[2][2];
 	}
 	
 	private void createAndShowGUI() {
