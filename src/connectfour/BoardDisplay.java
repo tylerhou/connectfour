@@ -1,42 +1,43 @@
 package connectfour;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class BoardDisplay extends JPanel {
 	
-	HumanPlayer human;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4593703609988780886L;
+	Tile[][] tiles = new Tile[6][7];
+	Color transparent = new Color(0, 0, 0, 0);
 	
 	public BoardDisplay() {
 		setLayout(new GridLayout(6, 7));
-		for (int a = 0; a < 42; a++)
-			add(new Tile(Color.red));
+		for (int row = 0; row < 6; ++row) {
+			for (int col = 0; col < 7; ++col) {
+				tiles[row][col] = new Tile(transparent);
+				add(tiles[row][col]);
+			}
+		}
 	}
 	
-	 private void createAndShowGUI() {
-	        //Create and set up the window.
-		 JFrame frame = new JFrame("Connect Four");
-		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	         
-		 //Add content to the window.
-		 human = new HumanPlayer();
-		 frame.add(human);
-	         
-		 //Display the window.
-		 frame.pack();
-		 frame.setSize(500,500);
-		 frame.setVisible(true);
-	 }
-	 
-	 public static void main(String[] args) {
-		 BoardDisplay display = new BoardDisplay();
-		 display.createAndShowGUI();
-		 while (true) {
-			 System.out.println(display.human.getMove());
-		 }
-	 }
+	public void update(int[][] board) {
+		for (int row = 0; row < 6; ++row) {
+			for (int col = 0; col < 7; ++col) {
+				Color c;
+				if (board[row][col] == 1) {
+					c = Color.red;
+				}
+				else if (board[row][col] == -1) {
+					c = Color.blue;
+				}
+				else {
+					c = transparent;
+				}
+				tiles[row][col].setColor(c);
+			}
+		}
+	}
 }

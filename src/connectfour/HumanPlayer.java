@@ -9,6 +9,10 @@ import javax.swing.JPanel;
 
 public class HumanPlayer extends JPanel implements Player, ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1666151199582848862L;
 	int move;
 	Button[] buttons;
 	
@@ -19,6 +23,26 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 			buttons[a] = new Button("Drop!");
 			add(buttons[a]);
 			buttons[a].addActionListener(this);
+		}
+	}
+	
+	public void disable(int col) {
+		buttons[col].setEnabled(false);
+	}
+	
+	public void enable(int col) {
+		buttons[col].setEnabled(true);
+	}
+	
+	public void disableAll() {
+		for (Button button: buttons) {
+			button.setEnabled(false);
+		}
+	}
+	
+	public void enableAll() {
+		for (Button button: buttons) {
+			button.setEnabled(true);
 		}
 	}
 	

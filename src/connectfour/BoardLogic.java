@@ -10,7 +10,7 @@ public class BoardLogic {
 					// columns pieces were dropped into
 	int move; // stores which move it is, used to find the history.
 
-	BoardLogic() {
+	public BoardLogic() {
 		board = new int[6][7];
 		top = new int[7];
 		history = new int[42]; // 42 = 6*7

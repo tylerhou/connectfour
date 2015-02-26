@@ -29,14 +29,13 @@ public class TextGUI {
 				//b.move(ai.getMove(5));
 			}
 			else {
-				b.move(ai.getMove(10));
+				b.move(ai.getMove());
 			}
 			player = -player;
 			//Thread.sleep(250);
 		}
 		System.out.println("  0   1   2   3   4   5   6"); // type in
 		System.out.println(b);
-		System.out.println(ai.evaluate());
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
 		cin.close();

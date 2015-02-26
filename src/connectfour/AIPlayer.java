@@ -11,7 +11,7 @@ public class AIPlayer implements Player {
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {3, 4, 5, 7, 5, 4, 3}};
 		
-	AIPlayer(int depth, int bSc) {
+	public AIPlayer(int depth, int bSc) {
 		setState(state);
 		this.depth = depth;
 		this.bSc = bSc;
@@ -21,7 +21,7 @@ public class AIPlayer implements Player {
 		this.state = state;
 	}
 	
-	public int evaluate() {
+	private int evaluate() {
 		int winner = state.getWinnerColor();
 		if (winner == 1) {
 			return Integer.MAX_VALUE;
@@ -38,14 +38,14 @@ public class AIPlayer implements Player {
 	}
 	
 	public int getMove() {
-		return getMove(this.depth);
+		return getMove(depth);
 	}
 	
-	public int getMove(int depth) {
+	private int getMove(int depth) {
 		return negamax(depth, -Integer.MAX_VALUE, Integer.MAX_VALUE).second();
 	}
 	
-	public IntegerPair negamax(int depth, int alpha, int beta) {
+	private IntegerPair negamax(int depth, int alpha, int beta) {
 		if (depth == 0 || state.isTerminal()) {
 			return new IntegerPair(evaluate() * state.color, null);
 		}
