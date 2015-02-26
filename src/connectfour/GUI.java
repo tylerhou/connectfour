@@ -2,7 +2,6 @@ package connectfour;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +18,8 @@ public class GUI implements ActionListener {
 	private HumanPlayer human;
 	private BoardLogic logic;
 	private Player playerOne, playerTwo;
-	private JPanel reset;
+	private JPanel reset, game;
 	private JButton resetButton;
-	private JPanel game;
 	private JTabbedPane pane;
 	
 	public GUI() {
@@ -31,6 +29,7 @@ public class GUI implements ActionListener {
 		playerOne = human;
 		playerTwo = new AIPlayer(10, 1);
 		resetButton = new JButton("Reset");
+		resetButton.addActionListener(this);
 	}
 	
 	private void createAndShowGUI() {
@@ -89,6 +88,15 @@ public class GUI implements ActionListener {
 			reset.add(new JLabel("wins."));
 		}
 		reset.add(resetButton);
+		game.add(reset, BorderLayout.SOUTH);
+		pane.repaint();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == resetButton) {
+			play();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -97,11 +105,4 @@ public class GUI implements ActionListener {
 		gui.play();
 		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
