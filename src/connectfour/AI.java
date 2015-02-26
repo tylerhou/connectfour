@@ -20,7 +20,7 @@ public class AI {
 		this.state = state;
 	}
 	
-	public int evaluate() {
+	private int evaluate() {
 		int winner = state.getWinnerColor();
 		if (winner == 1) {
 			return Integer.MAX_VALUE;
@@ -40,7 +40,7 @@ public class AI {
 		return negamax(depth, -Integer.MAX_VALUE, Integer.MAX_VALUE).second();
 	}
 	
-	public IPair negamax(int depth, int alpha, int beta) {
+	private IPair negamax(int depth, int alpha, int beta) {
 		if (depth == 0 || state.isTerminal()) {
 			return new IPair(evaluate() * state.color, null);
 		}

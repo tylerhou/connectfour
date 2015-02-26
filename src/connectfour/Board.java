@@ -58,17 +58,7 @@ public class Board {
 			color = -color;
 		}
 	}
-
-	public ArrayList<Integer> getMoves() {
-		ArrayList<Integer> m = new ArrayList<Integer>(7);
-		for (int col = 0; col < 7; col++) {
-			if (top[col] < 6) {
-				m.add(col);
-			}
-		}
-		return m;
-	}
-
+	
 	public int get(int row, int col) {
 		return board[row][col];
 	}
@@ -113,7 +103,7 @@ public class Board {
 		return null;
 	}
 
-	public int check(IPair last, int d1, int d2) {
+	private int check(IPair last, int d1, int d2) {
 		int len = 1;
 		while (last.first() + len * d1 >= 0
 				&& last.second() + len * d2 >= 0

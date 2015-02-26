@@ -12,16 +12,17 @@ public class TheRealGUI extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
+	//variable declarations
 	private static final long serialVersionUID = -7479647450255253743L;
-	Board b = new Board();
-	AI ai =  new AI(1);
-	IPair last;
+	private Board b = new Board();
+	private AI ai =  new AI(1);
+	private IPair last;
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels = new JLabel[6][7];
 	private JLabel colorOfWinner, difficulty;
 	private JButton Reset;
 	private String w;
-	private int turns=0, r, c, diff=3;
+	private int r, c, diff=3;
 	private JComboBox difficult;
 
 	public TheRealGUI() {
@@ -49,7 +50,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		add(Reset);
 		Reset.setBounds(920,640,100,30);
 		Reset.setActionCommand("Reset");
-		Reset.addActionListener(new ActionListener() {
+		Reset.addActionListener(new ActionListener() { //has separate ActionListener to shorten runtime
 	         public void actionPerformed(ActionEvent f) {
 	        	 {
 	     			for (int col = 0; col < 7; ++col) {
@@ -113,18 +114,17 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		r = b.top[c]-1;
 		labels[r][c].setForeground(Color.red);
 		
-		if(check()) AImove();
+		if(check()) AImove(); //calls the AI's turn if there isn't a winner
 	}
 		
-	public void AImove() {
+	public void AImove() { //makes the AI make a move
 		ai.setState(b);
 		last=b.move(ai.getMove(diff)); 
-		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 		labels[last.first][last.second].setForeground(Color.blue);
 		check();
 	}
 		
-	public boolean check() {
+	public boolean check() { // checks if there's a winner and if any column is full
 		if (b.top[last.second]==6){
 			buttons[last.second].setText("Full");
 			buttons[last.second].setEnabled(false);
@@ -143,7 +143,7 @@ public class TheRealGUI extends JFrame implements ActionListener {
 		return !b.isTerminal();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { // calls the game to start
 		TheRealGUI GUI = new TheRealGUI();
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class GUI {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException { // backup class to run game
 
 		Scanner cin = new Scanner(System.in);
 		Board b = new Board();
@@ -25,17 +25,15 @@ public class GUI {
 						b.move(c);						/************TEXT-BASED BOARD************/
 					}
 				}
-				//b.move(ai.getMove(5));
 			}
 			else {
 				b.move(ai.getMove(10));
 			}
 			player = -player;
-			//Thread.sleep(250);
 		}
 		System.out.println("  0   1   2   3   4   5   6"); // type in
 		System.out.println(b);
-		System.out.println(ai.evaluate());
+		//System.out.println(ai.evaluate());
 		System.out.println(b.getWinnerColor());
 		System.out.println(b.getWinner());
 		cin.close();
