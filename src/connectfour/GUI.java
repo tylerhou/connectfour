@@ -20,7 +20,8 @@ public class GUI implements ActionListener {
 	private HumanPlayer human;
 	private BoardLogic logic;
 	private Player playerOne, playerTwo;
-	private JPanel reset, game;
+	private JPanel reset, game, settings;
+	private AIPlayer analyze = new AIPlayer(10);
 	private Button resetButton;
 	private JTabbedPane pane;
 	private JFrame frame;
@@ -30,8 +31,9 @@ public class GUI implements ActionListener {
 		human = new HumanPlayer();
 		logic = new BoardLogic();
 		playerOne = human;
-		playerTwo = human;
-		//playerTwo = new AIPlayer(10, 1);
+		//playerTwo = human;
+		playerTwo = new AIPlayer(10);
+		
 		resetButton = new Button("Reset");
 		resetButton.addActionListener(this);
 		
@@ -45,15 +47,20 @@ public class GUI implements ActionListener {
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//Add content to the window.
-		
+		/** tabbed pane **/
 		pane = new JTabbedPane();
 		
+		/** game tab **/
 		game = new JPanel();
 		game.setLayout(new BorderLayout());
 		game.add(board, BorderLayout.CENTER);
 		
 		pane.add("Game", game);
+		
+		/** settings tab **/
+		settings = new JPanel();
+		
+		pane.add("Settings", settings);
 		
 		frame.add(pane);
 		
@@ -108,8 +115,6 @@ public class GUI implements ActionListener {
 			}
 			
 			protected void process(List<BoardLogic> chunks) {
-				// Here we receive the values that we publish().
-				// They may come grouped in chunks.
 				board.setState(chunks.get(chunks.size()-1));
 			}
 		};
@@ -129,7 +134,16 @@ public class GUI implements ActionListener {
 
 	public static void main(String[] args) {
 		GUI gui = new GUI();
-		gui.createAndShowGUI();
-		gui.play();
+		//gui.createAndShowGUI();
+		//gui.play();
+		long total = 0;
+		gui.analyze.setState(gui.logic);
+		for (int i = 0; i < 1000; i++) {
+			long startTime = System.nanoTime();
+			gui.analyze.evaluate();
+			long endTime = System.nanoTime();
+			total += endTime - startTime;
+			System.out.println(((double)total)/(i+1));
+		}
 	}
 }

@@ -1,7 +1,17 @@
 package connectfour;
 
-public class BoardLogic {
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
+public class BoardLogic implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -155050824689527696L;
 	private int[][] board; // stores the board state, 7 cols by 6 rows
 	private int[] top; // for each column, points to the space where a new piece would
 				// drop to
@@ -100,10 +110,10 @@ public class BoardLogic {
 														  // direction d1 and col direction d2
 		int len = 1;
 		while (last.first() + len * d1 >= 0
-				&& last.second() + len * d2 >= 0
-				&& last.first() + len * d1 <= 5
-				&& last.second() + len * d2 <= 6
-				&& board[last.first() + len * d1][last.second() + len * d2] == -color) {
+			&& last.second() + len * d2 >= 0
+			&& last.first() + len * d1 <= 5
+			&& last.second() + len * d2 <= 6
+			&& board[last.first() + len * d1][last.second() + len * d2] == -color) {
 			len += 1;
 		}
 		return len - 1;
@@ -140,5 +150,22 @@ public class BoardLogic {
 		s += "-----------------------------";
 		return s;
 	}
-
+	
+	public BoardLogic deepCopy() {
+		/** returns a complete, deep copy of the object.
+		 *  from http://alvinalexander.com/java/java-deep-clone-example-source-code **/
+		
+		try {
+			ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			ObjectOutputStream oout = new ObjectOutputStream(bout);
+			oout.writeObject(this);
+			ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
+			ObjectInputStream oin = new ObjectInputStream(bin);
+			return (BoardLogic) oin.readObject();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
