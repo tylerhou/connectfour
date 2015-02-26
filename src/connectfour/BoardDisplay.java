@@ -40,5 +40,19 @@ public class BoardDisplay extends JPanel {
 			}
 		}
 		repaint();
+		Pair<IntegerPair, IntegerPair> w;
+		if ((w = board.getWinner()) != null) {
+			int dx = w.second().first() - w.first().first();
+			int dy = w.second().second() - w.first().second();
+			dx = dx / (Math.abs(dx) != 0 ? Math.abs(dx) : 1);
+			dy = dy / (Math.abs(dy) != 0 ? Math.abs(dy) : 1);
+			System.out.println(dx + ", " + dy);
+			for (int l = 0; dx * l + w.first().first() <= w.second().first() && 
+							dy * l + w.first().second() <= w.second().second(); ++l) {
+				System.out.println(dx * l + w.first().first() + ", " + dy * l + w.first().second());
+				tiles[dx * l + w.first().first()][dy * l + w.first().second()].setColor(
+				tiles[dx * l + w.first().first()][dy * l + w.first().second()].getColor().darker());
+			}
+		}
 	}
 }

@@ -28,7 +28,7 @@ public class AIPlayer implements Player {
 		else if (winner == -1) {
 			return -Integer.MAX_VALUE;
 		}
-		if (state.isDraw()) {
+		else if (state.isDraw()) {
 			return 0;
 		}
 		int total = 0;
@@ -92,8 +92,8 @@ public class AIPlayer implements Player {
 					if (color != 0) {
 						//System.out.println();
 						for (int i = 0; i < 4; ++ i) {
-							a = check(last, s[0][i], s[1][i], visited);
-							b = check(last, -s[0][i], -s[1][i], visited);
+							a = check(last, s[0][i], s[1][i]);
+							b = check(last, -s[0][i], -s[1][i]);
 							if (a.second() + b.second() >= 3) {
 								//System.out.print("\t-> " + a + "," + b + ": ");
 								total += color * cS[a.first() + b.first()];
@@ -108,7 +108,7 @@ public class AIPlayer implements Player {
 		return total;
 	}
 	
-	private IntegerPair check(IntegerPair last, int d1, int d2, boolean[][] visited) { // returns the # in a row
+	private IntegerPair check(IntegerPair last, int d1, int d2) { // returns the # in a row
 		//in row direction d1 and col direction d2 and also if the next one is free
 		int len = 1, player = state.get(last.first(), last.second());
 		while (last.first() + len * d1 >= 0
@@ -116,7 +116,6 @@ public class AIPlayer implements Player {
 		    && last.first() + len * d1 <= 5
 		    && last.second() + len * d2 <= 6
 		    && state.get(last.first() + len * d1, last.second() + len * d2) == player) {
-			visited[last.first() + len * d1][last.second() + len * d2] = true; 
 			len += 1;
 		}
 		int same = len;
@@ -125,7 +124,6 @@ public class AIPlayer implements Player {
 		    && last.first() + len * d1 <= 5
 		    && last.second() + len * d2 <= 6
 		    && state.get(last.first() + len * d1, last.second() + len * d2) == 0) {
-			visited[last.first() + len * d1][last.second() + len * d2] = true;
 			len += 1;
 		}
 		return new IntegerPair(same-1, len-1);

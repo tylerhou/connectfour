@@ -37,4 +37,8 @@ public class Tile extends JComponent {
 		g2d.fill(circle);
         g2d.dispose();
 	}
+
+	public Color getColor() {
+		return c;
+	}
 }

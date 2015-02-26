@@ -1,17 +1,20 @@
 package connectfour;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 public class GUI implements ActionListener {
@@ -21,25 +24,30 @@ public class GUI implements ActionListener {
 	private BoardLogic logic;
 	private Player playerOne, playerTwo;
 	private JPanel reset, game, settings;
-	private AIPlayer analyze = new AIPlayer(10);
-	private Button resetButton;
+	private JButton resetButton, save;
 	private JTabbedPane pane;
 	private JFrame frame;
+	private JTextField[] difficulties;
+	private ButtonGroup[] playerTypes;
+	private JRadioButton[][] playerRadios;
 	
 	public GUI() {
 		board = new BoardDisplay();
 		human = new HumanPlayer();
 		logic = new BoardLogic();
 		playerOne = human;
-		//playerTwo = human;
-		playerTwo = new AIPlayer(10);
+		playerTwo = human;
+		//playerTwo = new AIPlayer(10);
 		
-		resetButton = new Button("Reset");
+		resetButton = new JButton("Reset");
 		resetButton.addActionListener(this);
 		
-		for (Button button: human.getButtons()) {
+		for (JButton button: human.getButtons()) {
 			button.addActionListener(this);
 		}
+		difficulties = new JTextField[2];
+		playerTypes = new ButtonGroup[2];
+		playerRadios = new JRadioButton[2][2];
 	}
 	
 	private void createAndShowGUI() {
@@ -59,6 +67,8 @@ public class GUI implements ActionListener {
 		
 		/** settings tab **/
 		settings = new JPanel();
+		
+		
 		
 		pane.add("Settings", settings);
 		
@@ -134,16 +144,7 @@ public class GUI implements ActionListener {
 
 	public static void main(String[] args) {
 		GUI gui = new GUI();
-		//gui.createAndShowGUI();
-		//gui.play();
-		long total = 0;
-		gui.analyze.setState(gui.logic);
-		for (int i = 0; i < 1000; i++) {
-			long startTime = System.nanoTime();
-			gui.analyze.evaluate();
-			long endTime = System.nanoTime();
-			total += endTime - startTime;
-			System.out.println(((double)total)/(i+1));
-		}
+		gui.createAndShowGUI();
+		gui.play();		
 	}
 }
