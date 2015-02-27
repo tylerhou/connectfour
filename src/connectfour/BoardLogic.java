@@ -72,7 +72,7 @@ public class BoardLogic implements Serializable {
 		return new IntegerPair(top[place] - 1, place);
 	}
 
-	/*public void undo() {
+	public void undo() {
 		if (move > 0) {
 			board[top[history[move - 1]] - 1][history[move - 1]] = 0; // sets the last place moved to 0
 			--top[history[move - 1]]; // decrements the top row of the last column moved
@@ -80,7 +80,7 @@ public class BoardLogic implements Serializable {
 			color = -color; // switches player
 		}
 	}
-	*/
+	
 
 	public int get(int row, int col) {
 		return board[row][col]; // returns the value of the board at row and col
