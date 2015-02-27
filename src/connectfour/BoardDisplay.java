@@ -10,13 +10,17 @@ public class BoardDisplay extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -4593703609988780886L;
+	private int BOARD_WIDTH = 7;
+	private int BOARD_HEIGHT = 6;
+	private int PLAYER_ONE = 1;
+	private int PLAYER_TWO = -1;
 	private Tile[][] tiles = new Tile[6][7];
 	private Color transparent = new Color(0, 0, 0, 0);
 	
 	public BoardDisplay() {
-		setLayout(new GridLayout(6, 7));
-		for (int row = 0; row < 6; ++row) {
-			for (int col = 0; col < 7; ++col) {
+		setLayout(new GridLayout(BOARD_HEIGHT, BOARD_WIDTH));
+		for (int row = 0; row < BOARD_HEIGHT; ++row) {
+			for (int col = 0; col < BOARD_WIDTH; ++col) {
 				tiles[5-row][col] = new Tile(transparent);
 				add(tiles[5-row][col]);
 			}
@@ -24,13 +28,14 @@ public class BoardDisplay extends JPanel {
 	}
 	
 	public void setState(BoardLogic board) {
-		for (int row = 0; row < 6; ++row) {
-			for (int col = 0; col < 7; ++col) {
+		for (int row = 0; row < BOARD_HEIGHT; ++row) {
+			for (int col = 0; col < BOARD_WIDTH; ++col) {
 				Color c;
-				if (board.get(row, col) == 1) {
+				int a;
+				if ((a = board.get(row, col)) == PLAYER_ONE) {
 					c = Color.red;
 				}
-				else if (board.get(row, col) == -1) {
+				else if (a == PLAYER_TWO) {
 					c = Color.blue;
 				}
 				else {

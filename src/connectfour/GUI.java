@@ -20,10 +20,12 @@ public class GUI implements ActionListener {
 	private HumanPlayer human;
 	private BoardLogic logic;
 	private Player playerOne, playerTwo;
+	private AIPlayer analyze;
 	private JPanel reset, game, settings;
 	private JButton resetButton;
 	private JTabbedPane pane;
 	private JFrame frame;
+	private PlayerSettings playerOneSettings, playerTwoSettings;
 	
 	public GUI() {
 		board = new BoardDisplay();
@@ -31,7 +33,7 @@ public class GUI implements ActionListener {
 		logic = new BoardLogic();
 		playerOne = human;
 		playerTwo = human;
-		//playerTwo = new AIPlayer(10);
+		analyze = new AIPlayer(10);
 		
 		resetButton = new JButton("Reset");
 		resetButton.addActionListener(this);
@@ -58,6 +60,7 @@ public class GUI implements ActionListener {
 		
 		/** settings tab **/
 		settings = new JPanel();
+		
 		
 		
 		
@@ -116,7 +119,10 @@ public class GUI implements ActionListener {
 			}
 			
 			protected void process(List<BoardLogic> chunks) {
-				board.setState(chunks.get(chunks.size()-1));
+				BoardLogic boardState = chunks.get(chunks.size()-1);
+				board.setState(boardState);
+				analyze.setState(boardState);
+				System.out.println(analyze.connectedStrength());
 			}
 		};
 		worker.execute();

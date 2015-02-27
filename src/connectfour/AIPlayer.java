@@ -2,6 +2,11 @@ package connectfour;
 
 public class AIPlayer implements Player {
 
+	private int BOARD_WIDTH = 7;
+	private int BOARD_HEIGHT = 6;
+	private int PLAYER_ONE = 1;
+	private int PLAYER_TWO = -1;
+	private int EMPTY = 0;
 	private int depth;
 	private BoardLogic state;
 	private int[][] bS = {{3, 4, 5, 7, 5, 4, 3}, 
@@ -22,10 +27,10 @@ public class AIPlayer implements Player {
 	
 	public int evaluate() {
 		int winner = state.getWinnerColor();
-		if (winner == 1) {
+		if (winner == PLAYER_ONE) {
 			return Integer.MAX_VALUE;
 		}
-		else if (winner == -1) {
+		else if (winner == PLAYER_TWO) {
 			return -Integer.MAX_VALUE;
 		}
 		else if (state.isDraw()) {
@@ -50,11 +55,10 @@ public class AIPlayer implements Player {
 			return new IntegerPair(evaluate() * state.getPlayer(), null);
 		}
 		IntegerPair best = new IntegerPair(Integer.MIN_VALUE, null), value;
-		for (int i = 0; i < 7; ++i) {
-			if (state.getTop()[i] < 6) {
+		for (int i = 0; i < BOARD_WIDTH; ++i) {
+			if (state.getTop()[i] < BOARD_HEIGHT) {
 				state.move(i);
 				value = new IntegerPair(-negamax(depth-1, -beta, -alpha).first, i);
-				//System.out.println(new String(new char[depth-1]).replace("\0", "\t") + value + ":" + -state.color);
 				if (value.first > best.first) {
 					best = value;
 				}
@@ -68,8 +72,8 @@ public class AIPlayer implements Player {
 	
 	private int boardStrength() {
 		int total = 0;
-		for (int row = 0; row < 6; ++row) {
-			for (int col = 0; col < 7; ++col) {
+		for (int row = 0; row < BOARD_HEIGHT; ++row) {
+			for (int col = 0; col < BOARD_WIDTH; ++col) {
 				total += state.getBoard()[row][col] * bS[row][col];
 			}
 		}
@@ -77,55 +81,53 @@ public class AIPlayer implements Player {
 	}
 	
 	public int connectedStrength() {
-		int total = 0, color;
-		IntegerPair a = null, b = null;
-		int[][] s = {{1,1,0,-1},{0,1,1,1}};
-		//s = {{-1,0,-1,1},{0,-1,-1,-1}}
-		IntegerPair last;
-		boolean[][] visited = new boolean[6][7];
-		for (int row = 0; row < 6; ++row) {
-			for (int col = 0; col < 7; ++col) {
-				if (!visited[row][col]) {
-					last = new IntegerPair(row, col);
-					//System.out.print(last + " ");
-					color = state.get(row, col);
-					if (color != 0) {
-						//System.out.println();
-						for (int i = 0; i < 4; ++ i) {
-							a = check(last, s[0][i], s[1][i]);
-							b = check(last, -s[0][i], -s[1][i]);
-							if (a.second() + b.second() >= 3) {
-								//System.out.print("\t-> " + a + "," + b + ": ");
-								total += color * cS[a.first() + b.first()];
-								//System.out.println(total);
-							}
-						}
-					}
-					visited[row][col] = true;
-				}
-			}
-		}
-		return total;
+	    int total = 0, color;
+	    IntegerPair a = null, b = null;
+	    int[][] s = {{1,1,0,-1},{0,1,1,1}}; //up/down, up-right/down-left, right/left, down-right/up-left
+	    IntegerPair last;
+	    boolean[][][] visited = new boolean[4][BOARD_HEIGHT][BOARD_WIDTH];
+	    for (int row = 0; row < BOARD_HEIGHT; ++row) {
+	        for (int col = 0; col < BOARD_WIDTH; ++col) { // loop through each tile position possible
+                last = new IntegerPair(row, col);
+                color = state.get(row, col);
+                if (color != EMPTY) { // if square isn't empty
+                    for (int i = 0; i < 4; ++ i) { // loop through four directions
+        	            if (!visited[i][row][col]) {
+	                        a = check(last, s[0][i], s[1][i], visited, i); // get lengths
+	                        b = check(last, -s[0][i], -s[1][i], visited, i);
+	                        if (a.second() + b.second() >= 3) { // if possible to create a four with this chain
+	                            total += color * cS[a.first() + b.first()]; // add to heuristic
+	                            System.out.println(last + " " + i + ": " + color * cS[a.first() + b.first()]);
+	                        }
+	                        visited[i][row][col] = true;
+        	            }
+                    }
+                }
+	        }
+	    }
+	    return total;
 	}
-	
-	private IntegerPair check(IntegerPair last, int d1, int d2) { // returns the # in a row
-		//in row direction d1 and col direction d2 and also if the next one is free
-		int len = 1, player = state.get(last.first(), last.second());
-		while (last.first() + len * d1 >= 0
-		    && last.second() + len * d2 >= 0
-		    && last.first() + len * d1 <= 5
-		    && last.second() + len * d2 <= 6
-		    && state.get(last.first() + len * d1, last.second() + len * d2) == player) {
-			len += 1;
-		}
-		int same = len;
-		while (last.first() + len * d1 >= 0
-		    && last.second() + len * d2 >= 0
-		    && last.first() + len * d1 <= 5
-		    && last.second() + len * d2 <= 6
-		    && state.get(last.first() + len * d1, last.second() + len * d2) == 0) {
-			len += 1;
-		}
-		return new IntegerPair(same-1, len-1);
+
+	private IntegerPair check(IntegerPair last, int d1, int d2, boolean[][][] visited, int i) { // returns the # in a row
+	    //in row direction d1 and col direction d2 and also if the next one is free
+	    int len = 1, player = state.get(last.first(), last.second());
+	    while (last.first() + len * d1 >= 0
+	        && last.second() + len * d2 >= 0
+	        && last.first() + len * d1 < BOARD_HEIGHT
+	        && last.second() + len * d2 < BOARD_WIDTH // while inbounds
+	        && state.get(last.first() + len * d1, last.second() + len * d2) == player) { // and while the tiles are the same color as the player's
+	        visited[i][last.first() + len * d1][last.second() + len * d2] = true; 
+	        len += 1;
+	    }
+	    int same = len;
+	    while (last.first() + len * d1 >= 0
+	        && last.second() + len * d2 >= 0
+	        && last.first() + len * d1 < BOARD_HEIGHT
+	        && last.second() + len * d2 < BOARD_WIDTH // again, while inbounds
+	        && state.get(last.first() + len * d1, last.second() + len * d2) != -player) { // while the tiles are not the enemy's 
+	        visited[i][last.first() + len * d1][last.second() + len * d2] = true;
+	        len += 1;
+	    }
+	    return new IntegerPair(same-1, len-1);
 	}
 }

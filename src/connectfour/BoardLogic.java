@@ -12,6 +12,9 @@ public class BoardLogic implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -155050824689527696L;
+	private int BOARD_WIDTH = 7;
+	private int BOARD_HEIGHT = 6;
+	private int EMPTY = 0;
 	private int[][] board; // stores the board state, 7 cols by 6 rows
 	private int[] top; // for each column, points to the space where a new piece would
 				// drop to
@@ -21,16 +24,16 @@ public class BoardLogic implements Serializable {
 	private int move; // stores which move it is, used to find the history.
 
 	public BoardLogic() {
-		board = new int[6][7];
-		top = new int[7];
+		board = new int[BOARD_HEIGHT][BOARD_WIDTH];
+		top = new int[BOARD_WIDTH];
 		history = new int[42]; // 42 = 6*7
 		init();
 	}
 		
 	public void init() {
-		for (int col = 0; col < 7; ++col) { // initialize the board to 0
-			for (int row = 0; row < 6; ++row)  {
-				board[row][col] = 0;
+		for (int col = 0; col < BOARD_WIDTH; ++col) { // initialize the board to EMPTY
+			for (int row = 0; row < BOARD_HEIGHT; ++row)  {
+				board[row][col] = EMPTY;
 			}
 			top[col] = 0; // and top to 0
 		}
@@ -60,7 +63,7 @@ public class BoardLogic implements Serializable {
 	}
 
 	public IntegerPair move(int place) {
-		if (top[place] < 6) { // if the column is not full
+		if (top[place] < BOARD_HEIGHT) { // if the column is not full
 			board[top[place]++][place] = color; // drops the tile and increments the top of the column
 			color = -color; // switches player
 			history[move] = place; // remembers the place moved
@@ -111,8 +114,8 @@ public class BoardLogic implements Serializable {
 		int len = 1;
 		while (last.first() + len * d1 >= 0
 			&& last.second() + len * d2 >= 0
-			&& last.first() + len * d1 <= 5
-			&& last.second() + len * d2 <= 6
+			&& last.first() + len * d1 < BOARD_HEIGHT-1
+			&& last.second() + len * d2 < BOARD_WIDTH-1
 			&& board[last.first() + len * d1][last.second() + len * d2] == -color) {
 			len += 1;
 		}
@@ -123,25 +126,25 @@ public class BoardLogic implements Serializable {
 		Pair<IntegerPair, IntegerPair> w = getWinner(); // gets the color of the first 
 														// coordinate of getWinnerColor()
 		if (w == null)
-			return 0;
+			return EMPTY;
 		else
 			return get(w.first.first, w.first.second);
 	}
 
 	public boolean isDraw() {
-		return move == 42 && getWinnerColor() == 0;
+		return move == 42 && getWinnerColor() == EMPTY;
 	}
 
 	public boolean isTerminal() {
-		return move == 42 || getWinnerColor() != 0;
+		return move == 42 || getWinnerColor() != EMPTY;
 	}
 
 	@Override
 	public String toString() {
 		String s = "-----------------------------\n";
-		for (int row = 0; row < 6; row++) {
+		for (int row = 0; row < BOARD_HEIGHT; row++) {
 			s += "|";
-			for (int col = 0; col < 7; col++) {
+			for (int col = 0; col < BOARD_WIDTH; col++) {
 				// space if == 0, + if == 1 and - if == -1.
 				s += " " + (board[5 - row][col] == 0 ? " " : (board[5 - row][col] > 0 ? "+" : "-")) + " |";
 			}
