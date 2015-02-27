@@ -9,13 +9,12 @@ public class TextGUI {
 		Scanner cin = new Scanner(System.in);
 		BoardLogic b = new BoardLogic();
 		
-		AIPlayer ai = new AIPlayer(3);
+		AIPlayer ai = new AIPlayer(6);
 		int player = 1, c = 0;
 		while (!b.isTerminal()) {
 			System.out.println("  0   1   2   3   4   5   6"); // type in
 			System.out.println(b);
 			ai.setState(b);
-			System.out.println(ai.connectedStrength());
 			if (player == 1) {
 				if ((c=cin.nextInt()) <= 6 && c >= -1) {
 					if (c == -1) {

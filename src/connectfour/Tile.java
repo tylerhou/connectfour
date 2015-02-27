@@ -15,7 +15,8 @@ public class Tile extends JComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = -8767644151517255592L;
-	Color c; 
+	private Color c;
+	public static final Color transparent = new Color(0, 0, 0, 0);
 	
 	public Tile(Color c) {
 		this.c = c;

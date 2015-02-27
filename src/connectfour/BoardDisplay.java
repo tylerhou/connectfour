@@ -15,13 +15,12 @@ public class BoardDisplay extends JPanel {
 	private int PLAYER_ONE = 1;
 	private int PLAYER_TWO = -1;
 	private Tile[][] tiles = new Tile[6][7];
-	private Color transparent = new Color(0, 0, 0, 0);
 	
 	public BoardDisplay() {
 		setLayout(new GridLayout(BOARD_HEIGHT, BOARD_WIDTH));
 		for (int row = 0; row < BOARD_HEIGHT; ++row) {
 			for (int col = 0; col < BOARD_WIDTH; ++col) {
-				tiles[5-row][col] = new Tile(transparent);
+				tiles[5-row][col] = new Tile(Tile.transparent);
 				add(tiles[5-row][col]);
 			}
 		}
@@ -39,7 +38,7 @@ public class BoardDisplay extends JPanel {
 					c = Color.blue;
 				}
 				else {
-					c = transparent;
+					c = Tile.transparent;
 				}
 				tiles[row][col].setColor(c);
 			}

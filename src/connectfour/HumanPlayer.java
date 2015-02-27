@@ -60,6 +60,7 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 	public int getMove() {
 		synchronized (this) {
 			try {
+				enableAll();
 				wait();
 			} catch (InterruptedException e) {
 				return -1;
@@ -72,6 +73,7 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		synchronized (this) {
 			move = java.util.Arrays.asList(buttons).indexOf((JButton) e.getSource());
+			disableAll();
 			notify();
 		}
 	}
