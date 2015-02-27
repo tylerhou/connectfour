@@ -1,6 +1,6 @@
 package connectfour;
 
-public class AIPlayer implements Player {
+public class AIPlayer implements Player, Runnable {
 
 	private int BOARD_WIDTH = 7;
 	private int BOARD_HEIGHT = 6;
@@ -16,6 +16,7 @@ public class AIPlayer implements Player {
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {3, 4, 5, 7, 5, 4, 3}};
 	private int[] cS = {0, 10, 100};
+	private int move;
 		
 	public AIPlayer(int depth) {
 		this.depth = depth;
@@ -27,6 +28,8 @@ public class AIPlayer implements Player {
 	
 	public int evaluate() {
 		int winner = state.getWinnerColor();
+		//System.out.println("Winner: " + winner + ", Last move: " + state.getLastMove());
+		//System.out.println(state);
 		if (winner == PLAYER_ONE) {
 			return Integer.MAX_VALUE;
 		}
@@ -43,7 +46,20 @@ public class AIPlayer implements Player {
 	}
 	
 	public int getMove() {
-		return getMove(depth);
+		synchronized (this) {
+			try {
+				Thread negamax = new Thread(this);
+				negamax.start();
+				negamax.join();
+			} catch (InterruptedException e) {
+				return -1;
+			}
+		}
+		return move;
+	}
+	
+	public void run() {
+		move = getMove(depth);
 	}
 	
 	private int getMove(int depth) {

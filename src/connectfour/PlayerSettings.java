@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JFormattedTextField;
@@ -43,11 +45,22 @@ public class PlayerSettings extends JPanel implements ActionListener {
         depth = new JPanel();
         depthTextField = new JFormattedTextField(new Integer(6));
         depthTextField.setColumns(2);
+        depthTextField.setInputVerifier(new InputVerifier() {
+			@Override
+			public boolean verify(JComponent input) {
+				try {
+					Integer.parseInt(((JFormattedTextField)input).getText());
+					return true;
+				} catch (NumberFormatException e) {
+					return false;
+				}
+			}
+        });
         depth.add(new JLabel("Depth:"));
         depth.add(depthTextField);
         
         aiOptions.add(depth);
-        aiOptions.add(new JButton("Coefficients"));
+        //aiOptions.add(new JButton("Coefficients"));
         
         aiOptions.setVisible(false);
         
@@ -61,7 +74,7 @@ public class PlayerSettings extends JPanel implements ActionListener {
         add(players);
         
         layout.putConstraint(SpringLayout.NORTH, aiOptions, 35, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, aiOptions, -30, SpringLayout.EAST, players);
+        layout.putConstraint(SpringLayout.WEST, aiOptions, 5, SpringLayout.EAST, players);
         add(aiOptions);
 	}
 
@@ -77,7 +90,13 @@ public class PlayerSettings extends JPanel implements ActionListener {
 			return human;
 		}
 		else {
-			return new AIPlayer(Integer.parseInt(depthTextField.getText()));
+			int depth;
+			try {
+				depth = Integer.parseInt(depthTextField.getText());
+			} catch (NumberFormatException e) {
+				depth = 6;
+			}
+			return new AIPlayer(depth);
 		}
 	}
 	

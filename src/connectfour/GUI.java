@@ -35,6 +35,8 @@ public class GUI implements ActionListener, ChangeListener {
 	private PlayerSettings playerOneSettings, playerTwoSettings;
 	private Dimension settingsSize, gameSize, minimumSize;
 	private SwingWorker<Void,BoardLogic> playWorker;
+	private Tile winTile;
+	private JLabel winLabel;
 	
 	public GUI() {
 		board = new BoardDisplay();
@@ -108,6 +110,16 @@ public class GUI implements ActionListener, ChangeListener {
 		
 		pane.addChangeListener(this);
 		
+		/** win/reset pane **/
+		reset = new JPanel();
+		reset.setLayout(new GridLayout(1, 3));
+		
+		winTile = new Tile(Tile.transparent);
+		winLabel = new JLabel();
+		reset.add(winTile);
+		reset.add(winLabel);
+		reset.add(resetButton);
+		
 		/** display the window **/
 		frame.pack();
 		frame.setSize(gameSize);
@@ -118,6 +130,9 @@ public class GUI implements ActionListener, ChangeListener {
 	public void play() {
 		if (playerOne instanceof HumanPlayer || playerTwo instanceof HumanPlayer) {
 			game.add(human, BorderLayout.SOUTH);
+		}
+		else {
+			game.remove(human);
 		}
 		playWorker = new SwingWorker<Void,BoardLogic>() {
 			@Override
@@ -143,30 +158,28 @@ public class GUI implements ActionListener, ChangeListener {
 			
 			protected void done() {
 				if (isCancelled()) {
-					System.out.println("Worker stopped.");
+					//System.out.println("Worker stopped.");
 					return;
 				}
 				if (logic.isTerminal()) {
 					board.setState(logic.getState());
 					game.remove(human);
-					reset = new JPanel();
-					reset.setLayout(new GridLayout(1, 3));
+
 					int winner = logic.getWinnerColor();
 					if (winner == 1) {
-						reset.add(new Tile(Color.red));
-						reset.add(new JLabel("wins."));
+						winTile.setColor(Color.red);
+						winLabel.setText("wins.");
 					}
 					else if (winner == -1) {
-						reset.add(new Tile(Color.blue));
-						reset.add(new JLabel("wins."));
+						winTile.setColor(Color.blue);
+						winLabel.setText("wins.");
 					}
 					else if (logic.isDraw()) {
-						reset.add(new Tile(new Color(0, 0, 0, 0)));
-						reset.add(new JLabel("Tie."));
+						winTile.setColor(Tile.transparent);
+						winLabel.setText("Tie.");
 					}
-					reset.add(resetButton);
 					game.add(reset, BorderLayout.SOUTH);
-					pane.repaint();
+					frame.repaint();
 				}
 			}
 			
@@ -183,7 +196,6 @@ public class GUI implements ActionListener, ChangeListener {
 		if (e.getSource() == resetButton) {
 			game.remove(reset);
 			logic.init();
-			game.add(human, BorderLayout.SOUTH);
 			pane.repaint();
 			play();
 		}
@@ -193,7 +205,7 @@ public class GUI implements ActionListener, ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == pane) {
 			if (pane.getSelectedIndex() == 1) {
-				playWorker.cancel(true);
+				System.out.print(playWorker.cancel(true));
 				gameSize = frame.getBounds().getSize();
 				frame.setMinimumSize(settingsSize);
 				frame.setSize(settingsSize);

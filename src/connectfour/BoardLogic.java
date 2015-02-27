@@ -84,47 +84,34 @@ public class BoardLogic implements Serializable {
 	public int get(int row, int col) {
 		return board[row][col]; // returns the value of the board at row and col
 	}
+	
+	public IntegerPair getLastMove() {
+		return new IntegerPair(top[history[move - 1]] - 1, history[move - 1]); // gets the last move
+	}
 
-	public Pair<IntegerPair, IntegerPair> getWinner() {
-		if (move <= 0)
-			return null;
-		IntegerPair last = new IntegerPair(top[history[move - 1]] - 1, history[move - 1]); // gets the last move
-		int a, b;
-		if ((a = check(last, -1, 0)) >= 3) { // check down
-			return new Pair<IntegerPair, IntegerPair>(last, 
-													  new IntegerPair(last.first() - a, last.second()));
-		}
-		if ((a = check(last, 0, -1)) + (b = check(last, 0, 1)) >= 3) { // check left and right
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first(), last.second() - a),
-													  new IntegerPair(last.first(), last.second() + b));
-		}
-		if ((a = check(last, -1, -1)) + (b = check(last, 1, 1)) >= 3) { // check right-up and left-down
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() - a, last.second() - a),
-													  new IntegerPair(last.first() + b, last.second() + b));
-		}
-		if ((a = check(last, 1, -1)) + (b = check(last, -1, 1)) >= 3) { // check left-up and right-down
-			return new Pair<IntegerPair, IntegerPair>(new IntegerPair(last.first() + a, last.second() - a), 
-													  new IntegerPair(last.first() - b, last.second() + b));
+	public Pair<IntegerPair,IntegerPair> getWinner() {
+		for (int row = 0; row < 6; row++) {
+			for (int col = 0; col < 7; col++) {
+				if (row+3 < 6 && Math.abs(board[row][col]+board[row+1][col]+board[row+2][col]+board[row+3][col])==4) {
+					return new Pair<IntegerPair,IntegerPair>(new IntegerPair(row,col), new IntegerPair(row+3,col));
+				}
+				if (col+3 < 7 && Math.abs(board[row][col]+board[row][col+1]+board[row][col+2]+board[row][col+3])==4) {
+					return new Pair<IntegerPair,IntegerPair>(new IntegerPair(row,col), new IntegerPair(row,col+3));
+				}
+				if (row+3 < 6 && col+3 < 7 && Math.abs(board[row][col]+board[row+1][col+1]+board[row+2][col+2]+board[row+3][col+3])==4) {
+					return new Pair<IntegerPair,IntegerPair>(new IntegerPair(row,col), new IntegerPair(row+3,col+3));
+				}
+				if (row-3 >=0 && col+3 < 7 && Math.abs(board[row][col]+board[row-1][col+1]+board[row-2][col+2]+board[row-3][col+3])==4) {
+					return new Pair<IntegerPair,IntegerPair>(new IntegerPair(row,col), new IntegerPair(row-3,col+3));
+				}
+			}
 		}
 		return null;
 	}
 
-	private int check(IntegerPair last, int d1, int d2) { // returns the # in a row in row 
-														  // direction d1 and col direction d2
-		int len = 1;
-		while (last.first() + len * d1 >= 0
-			&& last.second() + len * d2 >= 0
-			&& last.first() + len * d1 < BOARD_HEIGHT-1
-			&& last.second() + len * d2 < BOARD_WIDTH-1
-			&& board[last.first() + len * d1][last.second() + len * d2] == -color) {
-			len += 1;
-		}
-		return len - 1;
-	}
-
 	public int getWinnerColor() {
 		Pair<IntegerPair, IntegerPair> w = getWinner(); // gets the color of the first 
-														// coordinate of getWinnerColor()
+														// IntegerPair of getWinnerColor()
 		if (w == null)
 			return EMPTY;
 		else
