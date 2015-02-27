@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 
 public class PlayerSettings extends JPanel implements ActionListener {
@@ -21,10 +21,12 @@ public class PlayerSettings extends JPanel implements ActionListener {
 	private SpringLayout layout;
 	private JComboBox<String> players;
 	private JPanel aiOptions, depth;
-	private JTextField depthTextField;
+	private JFormattedTextField depthTextField;
+	private HumanPlayer human;
 	
-	public PlayerSettings(String name) {
+	public PlayerSettings(String name, HumanPlayer human) {
 		this.name = new JLabel(name);
+		this.human = human;
 		
 		layout = new SpringLayout();
         setLayout(layout);
@@ -39,7 +41,8 @@ public class PlayerSettings extends JPanel implements ActionListener {
         aiOptions.setLayout(new BoxLayout(aiOptions, BoxLayout.PAGE_AXIS));
         
         depth = new JPanel();
-        depthTextField = new JTextField("6", 3);
+        depthTextField = new JFormattedTextField(new Integer(6));
+        depthTextField.setColumns(2);
         depth.add(new JLabel("Depth:"));
         depth.add(depthTextField);
         
@@ -66,6 +69,15 @@ public class PlayerSettings extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == players) {
 			aiOptions.setVisible(players.getSelectedItem().toString().equals("AI"));
+		}
+	}
+	
+	public Player getPlayer() {
+		if (players.getSelectedItem().toString().equals("Human")) {
+			return human;
+		}
+		else {
+			return new AIPlayer(Integer.parseInt(depthTextField.getText()));
 		}
 	}
 	

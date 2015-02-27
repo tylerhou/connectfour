@@ -60,11 +60,10 @@ public class HumanPlayer extends JPanel implements Player, ActionListener {
 	public int getMove() {
 		synchronized (this) {
 			try {
-                wait();
-            }
-			catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+				wait();
+			} catch (InterruptedException e) {
+				return -1;
+			}
 		}
 		return move;
 	}

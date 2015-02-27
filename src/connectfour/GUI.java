@@ -34,6 +34,7 @@ public class GUI implements ActionListener, ChangeListener {
 	private JFrame frame;
 	private PlayerSettings playerOneSettings, playerTwoSettings;
 	private Dimension settingsSize, gameSize, minimumSize;
+	private SwingWorker<Void,BoardLogic> playWorker;
 	
 	public GUI() {
 		board = new BoardDisplay();
@@ -76,12 +77,15 @@ public class GUI implements ActionListener, ChangeListener {
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
+		playerOneSettings = new PlayerSettings("Player One", human);
+		playerTwoSettings = new PlayerSettings("Player Two", human);
+		
 		/** player one settings **/
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = c.weighty = 1;
 		c.gridx = 0;
 		c.gridy = 0;
-		settings.add(new PlayerSettings("Player One"), c);
+		settings.add(playerOneSettings, c);
 		
 		/** divider **/
 		c.fill = GridBagConstraints.BOTH;
@@ -96,7 +100,7 @@ public class GUI implements ActionListener, ChangeListener {
 		c.weightx = c.weighty = 1;
 		c.gridx = 0;
 		c.gridy = 2;
-		settings.add(new PlayerSettings("Player Two"), c);
+		settings.add(playerTwoSettings, c);
 		
 		pane.add("Settings", settings);
 		
@@ -115,44 +119,55 @@ public class GUI implements ActionListener, ChangeListener {
 		if (playerOne instanceof HumanPlayer || playerTwo instanceof HumanPlayer) {
 			game.add(human, BorderLayout.SOUTH);
 		}
-		SwingWorker<Void,BoardLogic> worker = new SwingWorker<Void,BoardLogic>() {
+		playWorker = new SwingWorker<Void,BoardLogic>() {
 			@Override
 			protected Void doInBackground() throws Exception {
-				while (!logic.isTerminal()) {
+				int move;
+				while (!logic.isTerminal() && !isCancelled()) {
 					publish(logic.getState());
 					if (logic.getPlayer() == 1) {
 						playerOne.setState(logic);
-						logic.move(playerOne.getMove());
+						move = playerOne.getMove();
+						if (isCancelled()) return null;
+							logic.move(move);
 					}
 					else if (logic.getPlayer() == -1) {
 						playerTwo.setState(logic);
-						logic.move(playerTwo.getMove());
+						move = playerTwo.getMove();
+						if (isCancelled()) return null;
+						logic.move(move);
 					}
 				}
 				return null;
 			}
 			
 			protected void done() {
-				board.setState(logic.getState());
-				game.remove(human);
-				reset = new JPanel();
-				reset.setLayout(new GridLayout(1, 3));
-				int winner = logic.getWinnerColor();
-				if (winner == 1) {
-					reset.add(new Tile(Color.red));
-					reset.add(new JLabel("wins."));
+				if (isCancelled()) {
+					System.out.println("Worker stopped.");
+					return;
 				}
-				else if (winner == -1) {
-					reset.add(new Tile(Color.blue));
-					reset.add(new JLabel("wins."));
+				if (logic.isTerminal()) {
+					board.setState(logic.getState());
+					game.remove(human);
+					reset = new JPanel();
+					reset.setLayout(new GridLayout(1, 3));
+					int winner = logic.getWinnerColor();
+					if (winner == 1) {
+						reset.add(new Tile(Color.red));
+						reset.add(new JLabel("wins."));
+					}
+					else if (winner == -1) {
+						reset.add(new Tile(Color.blue));
+						reset.add(new JLabel("wins."));
+					}
+					else if (logic.isDraw()) {
+						reset.add(new Tile(new Color(0, 0, 0, 0)));
+						reset.add(new JLabel("Tie."));
+					}
+					reset.add(resetButton);
+					game.add(reset, BorderLayout.SOUTH);
+					pane.repaint();
 				}
-				else {
-					reset.add(new Tile(new Color(0, 0, 0, 0)));
-					reset.add(new JLabel("wins."));
-				}
-				reset.add(resetButton);
-				game.add(reset, BorderLayout.SOUTH);
-				pane.repaint();
 			}
 			
 			protected void process(List<BoardLogic> chunks) {
@@ -160,7 +175,7 @@ public class GUI implements ActionListener, ChangeListener {
 				board.setState(boardState);
 			}
 		};
-		worker.execute();
+		playWorker.execute();
 	}
 	
 	@Override
@@ -178,6 +193,7 @@ public class GUI implements ActionListener, ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == pane) {
 			if (pane.getSelectedIndex() == 1) {
+				playWorker.cancel(true);
 				gameSize = frame.getBounds().getSize();
 				frame.setMinimumSize(settingsSize);
 				frame.setSize(settingsSize);
@@ -187,12 +203,15 @@ public class GUI implements ActionListener, ChangeListener {
 				frame.setResizable(true);
 				frame.setMinimumSize(minimumSize);
 				frame.setSize(gameSize);
+				playerOne = playerOneSettings.getPlayer();
+				playerTwo = playerTwoSettings.getPlayer();
+				play();
 			}
 		}
 	}
 
 	public static void main(String[] args) {
-		GUI gui = new GUI();
+		GUI gui = new GUI(); 
 		gui.createAndShowGUI();
 		gui.play();		
 	}
