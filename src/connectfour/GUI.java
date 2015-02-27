@@ -2,6 +2,9 @@ package connectfour;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +14,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class GUI implements ActionListener {
+public class GUI implements ActionListener, ChangeListener {
 
 	private BoardDisplay board;
 	private HumanPlayer human;
@@ -26,6 +33,7 @@ public class GUI implements ActionListener {
 	private JTabbedPane pane;
 	private JFrame frame;
 	private PlayerSettings playerOneSettings, playerTwoSettings;
+	private Dimension settingsSize, gameSize, minimumSize;
 	
 	public GUI() {
 		board = new BoardDisplay();
@@ -41,6 +49,10 @@ public class GUI implements ActionListener {
 		for (JButton button: human.getButtons()) {
 			button.addActionListener(this);
 		}
+		
+		settingsSize = new Dimension(300, 300);
+		minimumSize = new Dimension(450, 450);
+		gameSize = minimumSize;
 	}
 	
 	private void createAndShowGUI() {
@@ -60,17 +72,42 @@ public class GUI implements ActionListener {
 		
 		/** settings tab **/
 		settings = new JPanel();
+		settings.setLayout(new GridBagLayout());
 		
+		GridBagConstraints c = new GridBagConstraints();
 		
+		/** player one settings **/
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = c.weighty = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		settings.add(new PlayerSettings("Player One"), c);
 		
+		/** divider **/
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.gridx = 0;
+		c.gridy = 1;
+		settings.add(new JSeparator(SwingConstants.HORIZONTAL), c);
+		
+		/** player two settings **/
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = c.weighty = 1;
+		c.gridx = 0;
+		c.gridy = 2;
+		settings.add(new PlayerSettings("Player Two"), c);
 		
 		pane.add("Settings", settings);
 		
 		frame.add(pane);
 		
-		//Display the window.
+		pane.addChangeListener(this);
+		
+		/** display the window **/
 		frame.pack();
-		frame.setSize(500, 500);
+		frame.setSize(gameSize);
+		frame.setMinimumSize(minimumSize);
 		frame.setVisible(true);
 	}
 	
@@ -121,8 +158,6 @@ public class GUI implements ActionListener {
 			protected void process(List<BoardLogic> chunks) {
 				BoardLogic boardState = chunks.get(chunks.size()-1);
 				board.setState(boardState);
-				analyze.setState(boardState);
-				System.out.println(analyze.connectedStrength());
 			}
 		};
 		worker.execute();
@@ -136,6 +171,23 @@ public class GUI implements ActionListener {
 			game.add(human, BorderLayout.SOUTH);
 			pane.repaint();
 			play();
+		}
+	}
+	
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == pane) {
+			if (pane.getSelectedIndex() == 1) {
+				gameSize = frame.getBounds().getSize();
+				frame.setMinimumSize(settingsSize);
+				frame.setSize(settingsSize);
+				frame.setResizable(false);
+			}
+			else if (pane.getSelectedIndex() == 0) {
+				frame.setResizable(true);
+				frame.setMinimumSize(minimumSize);
+				frame.setSize(gameSize);
+			}
 		}
 	}
 

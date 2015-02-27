@@ -97,7 +97,6 @@ public class AIPlayer implements Player {
 	                        b = check(last, -s[0][i], -s[1][i], visited, i);
 	                        if (a.second() + b.second() >= 3) { // if possible to create a four with this chain
 	                            total += color * cS[a.first() + b.first()]; // add to heuristic
-	                            System.out.println(last + " " + i + ": " + color * cS[a.first() + b.first()]);
 	                        }
 	                        visited[i][row][col] = true;
         	            }
