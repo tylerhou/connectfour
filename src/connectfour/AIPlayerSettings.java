@@ -96,7 +96,7 @@ public class AIPlayerSettings extends JPanel implements ActionListener {
 			} catch (NumberFormatException e) {
 				depth = 6;
 			}
-			return new AIDisplay(depth);
+			return new AIPlayerDisplay(depth);
 		}
 	}
 	

@@ -220,12 +220,12 @@ public class AIGUI implements ActionListener, ChangeListener {
 				frame.setMinimumSize(minimumSize);
 				frame.setSize(gameSize);
 				playerOne = playerOneSettings.getPlayer();
-				if (playerOne instanceof AIDisplay) {
-					((AIDisplay)playerOne).setWorker(playWorker);
+				if (playerOne instanceof AIPlayerDisplay) {
+					((AIPlayerDisplay)playerOne).setWorker(playWorker);
 				}
 				playerTwo = playerTwoSettings.getPlayer();
-				if (playerTwo instanceof AIDisplay) {
-					((AIDisplay)playerTwo).setWorker(playWorker);
+				if (playerTwo instanceof AIPlayerDisplay) {
+					((AIPlayerDisplay)playerTwo).setWorker(playWorker);
 				}
 				play();
 			}

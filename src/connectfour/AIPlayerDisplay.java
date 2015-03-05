@@ -2,11 +2,11 @@ package connectfour;
 
 import javax.swing.SwingWorker;
 
-public class AIDisplay extends AIPlayer implements Player, Runnable {
+public class AIPlayerDisplay extends AIPlayer implements Player, Runnable {
 	
 	AIWorker worker;
 	
-	public AIDisplay(int depth) {
+	public AIPlayerDisplay(int depth) {
 		super(depth);
 	}
 	
