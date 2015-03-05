@@ -4,29 +4,20 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
-public class BoardDisplay extends JPanel {
+public class AIBoardDisplay extends BoardDisplay {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4593703609988780886L;
-	protected int BOARD_WIDTH = 7;
-	protected int BOARD_HEIGHT = 6;
-	protected int PLAYER_ONE = 1;
-	protected int PLAYER_TWO = -1;
-	protected Tile[][] tiles = new Tile[6][7];
-	
-	public BoardDisplay() {
-		setLayout(new GridLayout(BOARD_HEIGHT, BOARD_WIDTH));
-		for (int row = 0; row < BOARD_HEIGHT; ++row) {
-			for (int col = 0; col < BOARD_WIDTH; ++col) {
-				tiles[5-row][col] = new Tile(Tile.transparent);
-				add(tiles[5-row][col]);
-			}
-		}
-	}
+	private static final long serialVersionUID = -8663223348245048369L;
+	private BoardLogic real;
 	
 	public void setState(BoardLogic board) {
+		real = board;
+		super.setState(board);
+	}
+	
+	public void setPrematureState(BoardLogic board) {
 		for (int row = 0; row < BOARD_HEIGHT; ++row) {
 			for (int col = 0; col < BOARD_WIDTH; ++col) {
 				Color c;
@@ -39,6 +30,10 @@ public class BoardDisplay extends JPanel {
 				}
 				else {
 					c = Tile.transparent;
+				}
+				if (a != real.get(row, col)) {
+					c = new Color(c.getRed(), 0, c.getBlue(), 128);
+					System.out.println("asd");
 				}
 				tiles[row][col].setColor(c);
 			}

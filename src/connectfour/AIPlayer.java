@@ -7,7 +7,7 @@ public class AIPlayer implements Player, Runnable {
 	private int PLAYER_ONE = 1;
 	private int PLAYER_TWO = -1;
 	private int EMPTY = 0;
-	private int depth;
+	protected int depth;
 	private BoardLogic state;
 	private int[][] bS = {{3, 4, 5, 7, 5, 4, 3}, 
             		    {4, 6, 8, 10, 8, 6, 4},
@@ -16,7 +16,7 @@ public class AIPlayer implements Player, Runnable {
             		    {4, 6, 8, 10, 8, 6, 4},
             		    {3, 4, 5, 7, 5, 4, 3}};
 	private int[] cS = {0, 10, 100};
-	private int move;
+	protected int move;
 		
 	public AIPlayer(int depth) {
 		this.depth = depth;
@@ -24,6 +24,10 @@ public class AIPlayer implements Player, Runnable {
 	
 	public void setState(BoardLogic state) {
 		this.state = state.deepCopy();
+	}
+	
+	public BoardLogic getState() {
+		return state;
 	}
 	
 	public int evaluate() {
@@ -66,7 +70,7 @@ public class AIPlayer implements Player, Runnable {
 		return negamax(depth, -Integer.MAX_VALUE, Integer.MAX_VALUE).second();
 	}
 	
-	private IntegerPair negamax(int depth, int alpha, int beta) {
+	protected IntegerPair negamax(int depth, int alpha, int beta) {
 		if (depth == 0 || state.isTerminal()) {
 			return new IntegerPair(evaluate() * state.getPlayer(), null);
 		}
@@ -81,6 +85,24 @@ public class AIPlayer implements Player, Runnable {
 				alpha = Math.max(alpha, value.first);
 				state.undo();
 				if (alpha >= beta) break;
+			}
+		}
+		return best;
+	}
+	
+	protected IntegerPair negamax(int depth) {
+		if (depth == 0 || state.isTerminal()) {
+			return new IntegerPair(evaluate() * state.getPlayer(), null);
+		}
+		IntegerPair best = new IntegerPair(Integer.MIN_VALUE, null), value;
+		for (int i = 0; i < BOARD_WIDTH; ++i) {
+			if (state.getTop()[i] < BOARD_HEIGHT) {
+				state.move(i);
+				value = new IntegerPair(-negamax(depth-1).first, i);
+				if (value.first > best.first) {
+					best = value;
+				}
+				state.undo();
 			}
 		}
 		return best;
