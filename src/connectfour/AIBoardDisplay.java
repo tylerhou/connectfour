@@ -33,7 +33,6 @@ public class AIBoardDisplay extends BoardDisplay {
 				}
 				if (a != real.get(row, col)) {
 					c = new Color(c.getRed(), 0, c.getBlue(), 128);
-					System.out.println("asd");
 				}
 				tiles[row][col].setColor(c);
 			}
